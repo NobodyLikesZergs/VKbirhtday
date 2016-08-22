@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Sdr</string>
+    <integer name="com_vk_sdk_AppId">5588217</integer>
+</resources>
