@@ -2,7 +2,6 @@ package com.example.maq.sdr.domain.loaders;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.util.Log;
 
 import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Friend;
@@ -20,7 +19,6 @@ public class GetFriendsLoader extends AsyncTaskLoader<List<Friend>>{
 
     @Override
     public List<Friend> loadInBackground() {
-        Log.i("GetFriendsLoader", "loadInBackground");
         return mRepository.getFriends();
     }
 

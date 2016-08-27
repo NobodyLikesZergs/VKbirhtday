@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.loaders.LoadFriendsLoader;
+import com.example.maq.sdr.presentation.MainApplication;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class LoadFriendsLoaderCallback implements LoaderManager.LoaderCallbacks<
 
     @Override
     public void onLoadFinished(Loader<List<Friend>> loader, List<Friend> data) {
-        Log.i("LoadFriendsLoader", "load finished");
+        Log.i(MainApplication.LOG_TAG, "LoadFriendsLoader: load finished");
         mPresenter.showFriends(data);
     }
 

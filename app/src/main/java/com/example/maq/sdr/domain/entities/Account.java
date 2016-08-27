@@ -1,19 +1,35 @@
 package com.example.maq.sdr.domain.entities;
 
-import java.util.Date;
+public abstract class Account {
 
-public class Account {
-    private Friend friend;
-    private boolean isActive;
+    private String id;
+
     private AccountType accountType;
-    private Date lastInteraction;
 
-    public boolean isActive() {
-        return isActive;
+    private boolean isActive;
+
+    private String imgUrl;
+
+    private String name;
+
+    private String birthDate;
+
+    public Account(AccountType accountType, String id, boolean isActive, String imgUrl,
+                   String birthDate, String name) {
+        this.id = id;
+        this.accountType = accountType;
+        this.isActive = isActive;
+        this.imgUrl = imgUrl;
+        this.birthDate = birthDate;
+        this.name = name;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public AccountType getAccountType() {
@@ -24,19 +40,35 @@ public class Account {
         this.accountType = accountType;
     }
 
-    public Date getLastInteraction() {
-        return lastInteraction;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setLastInteraction(Date lastInteraction) {
-        this.lastInteraction = lastInteraction;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
-    public Friend getFriend() {
-        return friend;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setFriend(Friend friend) {
-        this.friend = friend;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 }

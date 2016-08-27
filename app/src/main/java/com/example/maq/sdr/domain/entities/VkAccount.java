@@ -1,31 +1,15 @@
 package com.example.maq.sdr.domain.entities;
 
 public class VkAccount extends Account{
-    private String id;
-    private int priority;
-    private String imgUrl;
 
-    public String getId() {
-        return id;
+    public VkAccount(String id, boolean isActive, String imgUrl,
+                   String birthDate, String name) {
+        super(AccountType.VK_ACCOUNT, id, isActive, imgUrl, birthDate, name);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public VkAccount(String id, boolean isActive, String imgUrl,
+                     String birthDate, String firstName, String lastName) {
+        super(AccountType.VK_ACCOUNT, id, isActive, imgUrl, birthDate, firstName + " " + lastName);
     }
 
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
 }

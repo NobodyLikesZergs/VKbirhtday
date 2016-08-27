@@ -9,14 +9,10 @@ import android.util.Log;
 
 import com.example.maq.sdr.R;
 import com.example.maq.sdr.data.DataSource;
-import com.example.maq.sdr.data.DataSourceImpl;
-import com.example.maq.sdr.data.local.LocalDataSource;
-import com.example.maq.sdr.data.local.LocalDataSourceImpl;
-import com.example.maq.sdr.data.remote.RemoteDataSource;
-import com.example.maq.sdr.data.remote.RemoteDataSourceImpl;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.loaders.GetFriendsLoader;
 import com.example.maq.sdr.domain.loaders.LoadFriendsLoader;
+import com.example.maq.sdr.presentation.MainApplication;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
@@ -48,6 +44,8 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         if (VKAccessToken.currentToken() == null) {
             VKSdk.login(this, VKScope.FRIENDS);
         } else {
+            ((MainApplication)getApplication())
+                    .setVkToken(VKAccessToken.currentToken().accessToken);
             createPresenter(VKAccessToken.currentToken().accessToken);
         }
     }
@@ -80,9 +78,7 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
     }
 
     private void createPresenter(String vkToken) {
-        LocalDataSource  localDataSource = LocalDataSourceImpl.getInstance(this);
-        RemoteDataSource remoteDataSource = RemoteDataSourceImpl.getInstance(vkToken);
-        DataSource dataSource = DataSourceImpl.getInstance(localDataSource, remoteDataSource);
+        DataSource dataSource = ((MainApplication)getApplication()).getDataSource();
         LoadFriendsLoader loadFriendsLoader = new LoadFriendsLoader(this, dataSource);
         GetFriendsLoader getFriendsLoader = new GetFriendsLoader(this, dataSource);
         mFriendsPresenter = new FriendsPresenter(getLoaderManager(), loadFriendsLoader,

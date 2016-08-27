@@ -3,6 +3,7 @@ package com.example.maq.sdr.data.remote;
 import android.util.Log;
 
 import com.example.maq.sdr.domain.entities.Friend;
+import com.example.maq.sdr.presentation.MainApplication;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
 
     @Override
     public List<Friend> loadFriends() {
-        Call<ResponseBean> call = mService.getFriendsList(mVkToken);
+        Call<ResponseBean> call = mService.getVkAccountsList(mVkToken);
         Response<ResponseBean> response = null;
         try {
             response = call.execute();
@@ -49,14 +50,9 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
             return null;
         }
         List<Friend> result = new ArrayList<>();
-        Log.i("RemoteLoadFriends", response.raw().toString());
-        for (FriendBean friendBean: response.body().getFriendBeanList()) {
-            result.add(friendBean.createFriendObject());
-        }
-        try {
-            Thread.sleep(10_000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        Log.i(MainApplication.LOG_TAG, "remote loadFriends: " + response.raw().toString());
+        for (VkAccountBean accountBean: response.body().getVkAccountBeanList()) {
+            result.add(new Friend(accountBean.createVkAccountObject()));
         }
         return result;
     }
@@ -66,6 +62,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
         return null;
     }
 
+    @Override
     public void setVkToken(String vkToken) {
         mVkToken = vkToken;
     }

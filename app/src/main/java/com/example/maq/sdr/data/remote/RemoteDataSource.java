@@ -10,4 +10,6 @@ public interface RemoteDataSource {
 
     Friend loadFriend(int id);
 
+    void setVkToken(String vkToken);
+
 }

@@ -9,9 +9,9 @@ public class ResponseBean {
 
     @SerializedName("response")
     @Expose
-    private List<FriendBean> friendBeanList;
+    private List<VkAccountBean> VkAccountBeanList;
 
-    public List<FriendBean> getFriendBeanList() {
-        return friendBeanList;
+    public List<VkAccountBean> getVkAccountBeanList() {
+        return VkAccountBeanList;
     }
 }

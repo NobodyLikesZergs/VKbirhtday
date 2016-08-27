@@ -6,6 +6,6 @@ import retrofit2.http.Query;
 
 public interface VkApiRetrofit {
 
-    @GET("friends.get?fields=photo_200_orig")
-    Call<ResponseBean> getFriendsList(@Query("access_token") String token);
+    @GET("friends.get?fields=photo_200_orig,bdate")
+    Call<ResponseBean> getVkAccountsList(@Query("access_token") String token);
 }
