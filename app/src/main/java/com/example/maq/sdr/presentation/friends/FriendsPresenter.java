@@ -1,51 +1,45 @@
 package com.example.maq.sdr.presentation.friends;
 
 import android.app.LoaderManager;
+import android.content.Loader;
+import android.os.Bundle;
+import android.util.Log;
 
+import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.loaders.GetFriendsLoader;
-import com.example.maq.sdr.domain.loaders.LoadFriendsLoader;
 import com.example.maq.sdr.presentation.MainApplication;
 
 import java.util.List;
 
-public class FriendsPresenter implements FriendsContract.Presenter{
+public class FriendsPresenter implements FriendsContract.Presenter,
+        LoaderManager.LoaderCallbacks<List<Friend>> {
 
-    private final static int LOAD_FRIENDS_LOADER_ID = 1;
-
-    private final static int GET_FRIENDS_LOADER_ID = 2;
+    private final static int GET_FRIENDS_LOADER_ID = 1;
 
     private LoaderManager mLoaderManager;
 
-    private LoadFriendsLoader mLoadFriendsLoader;
-
-    private GetFriendsLoader mGetFriendsLoader;
+    private DataSource mDataSource;
 
     private FriendsContract.View mFriendsView;
 
-    private FriendsUpdateEventListener eventListener;
+    private FriendsUpdateEventListener mEventListener;
 
-    public FriendsPresenter(LoaderManager loaderManager, LoadFriendsLoader loadFriendsLoader,
-                            GetFriendsLoader getFriendsLoader, FriendsContract.View view) {
+    public FriendsPresenter(LoaderManager loaderManager, DataSource dataSource,
+                            FriendsContract.View view) {
         mLoaderManager = loaderManager;
-        mLoadFriendsLoader = loadFriendsLoader;
-        mGetFriendsLoader = getFriendsLoader;
+        mDataSource = dataSource;
         mFriendsView = view;
-        eventListener = new FriendsUpdateEventListener(this);
-        MainApplication.getEventBus().register(eventListener);
+        mEventListener = new FriendsUpdateEventListener(this);
+        MainApplication.getEventBus().register(mEventListener);
     }
 
     @Override
-    public void getFriends() {
-        mLoaderManager.initLoader(GET_FRIENDS_LOADER_ID, null,
-                new GetFriendsLoaderCallback(this, mGetFriendsLoader))
+    public void getFriends(boolean refreshList) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("refreshList", refreshList);
+        mLoaderManager.restartLoader(GET_FRIENDS_LOADER_ID, bundle, this)
                 .forceLoad();
-    }
-
-    @Override
-    public void loadFriends() {
-        mLoaderManager.initLoader(LOAD_FRIENDS_LOADER_ID, null,
-                new LoadFriendsLoaderCallback(mLoadFriendsLoader, this)).forceLoad();
     }
 
     public void showFriends(List<Friend> friends) {
@@ -53,6 +47,23 @@ public class FriendsPresenter implements FriendsContract.Presenter{
     }
 
     public void onActivityDestroy() {
-        MainApplication.getEventBus().unregister(eventListener);
+        MainApplication.getEventBus().unregister(mEventListener);
+    }
+
+    @Override
+    public Loader<List<Friend>> onCreateLoader(int id, Bundle args) {
+        return new GetFriendsLoader(mFriendsView.getCurrentContext(), mDataSource,
+                args.getBoolean("refreshList"));
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Friend>> loader, List<Friend> data) {
+        Log.i(MainApplication.LOG_TAG, "GetFriendsLoader: load finished");
+        this.showFriends(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Friend>> loader) {
+
     }
 }

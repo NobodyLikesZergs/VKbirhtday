@@ -41,7 +41,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
     }
 
     @Override
-    public List<Friend> loadFriends() {
+    public List<Friend> getFriends() {
         Call<ResponseBean> call = mService.getVkAccountsList(mVkToken);
         Response<ResponseBean> response = null;
         try {
@@ -58,7 +58,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
     }
 
     @Override
-    public Friend loadFriend(int id) {
+    public Friend getFriend(int id) {
         return null;
     }
 

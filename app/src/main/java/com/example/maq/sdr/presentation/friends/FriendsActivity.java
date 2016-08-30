@@ -1,5 +1,6 @@
 package com.example.maq.sdr.presentation.friends;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +11,6 @@ import android.util.Log;
 import com.example.maq.sdr.R;
 import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Friend;
-import com.example.maq.sdr.domain.loaders.GetFriendsLoader;
-import com.example.maq.sdr.domain.loaders.LoadFriendsLoader;
 import com.example.maq.sdr.presentation.MainApplication;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
@@ -56,6 +55,11 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
     }
 
     @Override
+    public Context getCurrentContext() {
+        return this;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
             @Override
@@ -80,10 +84,7 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
 
     private void createPresenter(String vkToken) {
         DataSource dataSource = ((MainApplication)getApplication()).getDataSource();
-        LoadFriendsLoader loadFriendsLoader = new LoadFriendsLoader(this, dataSource);
-        GetFriendsLoader getFriendsLoader = new GetFriendsLoader(this, dataSource);
-        mFriendsPresenter = new FriendsPresenter(getLoaderManager(), loadFriendsLoader,
-                getFriendsLoader, this);
-        mFriendsPresenter.getFriends();
+        mFriendsPresenter = new FriendsPresenter(getLoaderManager(), dataSource, this);
+        mFriendsPresenter.getFriends(true);
     }
 }

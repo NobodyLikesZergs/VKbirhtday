@@ -1,5 +1,8 @@
 package com.example.maq.sdr.data;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
 import com.example.maq.sdr.data.local.LocalDataSource;
 import com.example.maq.sdr.data.remote.RemoteDataSource;
 import com.example.maq.sdr.domain.entities.Friend;
@@ -21,16 +24,29 @@ public class DataSourceImpl implements DataSource{
     }
 
     public static DataSourceImpl getInstance(LocalDataSource localDataSource,
-                                      RemoteDataSource remoteDataSource) {
+                                             RemoteDataSource remoteDataSource) {
         if (INSTANCE == null)
             INSTANCE = new DataSourceImpl(localDataSource, remoteDataSource);
         return INSTANCE;
     }
 
     @Override
+    public List<Friend> getFriends(boolean refreshFriends) {
+        List<Friend> result = getFriends();
+        if (refreshFriends) {
+            refreshFriends();
+        }
+        return result;
+    }
+
+    @Override
     public List<Friend> getFriends() {
-        refreshFriends();
         return mLocalDataSource.getFriends();
+    }
+
+    @Override
+    public Friend getFriend(int id) {
+        return null;
     }
 
     @Override
@@ -44,24 +60,26 @@ public class DataSourceImpl implements DataSource{
     }
 
     @Override
-    public List<Friend> loadFriends() {
-        List<Friend> result = mRemoteDataSource.loadFriends();
-        saveFriends(result);
-        return result;
-    }
-
-    @Override
-    public Friend loadFriend(int id) {
-        return null;
-    }
-
-    @Override
     public void setVkToken(String vkToken) {
         mRemoteDataSource.setVkToken(vkToken);
     }
 
     private void refreshFriends() {
-        MainApplication.getEventBus().post(new FriendsUpdateEvent(true));
+        Log.i(MainApplication.LOG_TAG, "refreshFriends");
+        new RefreshFriendsTask().execute();
     }
 
+    class RefreshFriendsTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            mLocalDataSource.saveFriends(mRemoteDataSource.getFriends());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            MainApplication.getEventBus().post(new FriendsUpdateEvent(true));
+        }
+    }
 }

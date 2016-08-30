@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface RemoteDataSource {
 
-    List<Friend> loadFriends();
+    List<Friend> getFriends();
 
-    Friend loadFriend(int id);
+    Friend getFriend(int id);
 
     void setVkToken(String vkToken);
 

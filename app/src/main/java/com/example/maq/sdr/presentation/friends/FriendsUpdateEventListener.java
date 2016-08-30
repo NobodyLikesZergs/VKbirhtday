@@ -15,7 +15,7 @@ public class FriendsUpdateEventListener {
 
     @Subscribe
     public void task(FriendsUpdateEvent e) {
-//        mPresenter.getFriends();
+        mPresenter.getFriends(false);
         Log.i(MainApplication.LOG_TAG, "FriendsUpdateEvent");
     }
 }
