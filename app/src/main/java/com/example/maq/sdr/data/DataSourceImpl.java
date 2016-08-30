@@ -3,6 +3,8 @@ package com.example.maq.sdr.data;
 import com.example.maq.sdr.data.local.LocalDataSource;
 import com.example.maq.sdr.data.remote.RemoteDataSource;
 import com.example.maq.sdr.domain.entities.Friend;
+import com.example.maq.sdr.presentation.MainApplication;
+import com.example.maq.sdr.presentation.friends.FriendsUpdateEvent;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class DataSourceImpl implements DataSource{
 
     @Override
     public List<Friend> getFriends() {
+        refreshFriends();
         return mLocalDataSource.getFriends();
     }
 
@@ -55,6 +58,10 @@ public class DataSourceImpl implements DataSource{
     @Override
     public void setVkToken(String vkToken) {
         mRemoteDataSource.setVkToken(vkToken);
+    }
+
+    private void refreshFriends() {
+        MainApplication.getEventBus().post(new FriendsUpdateEvent(true));
     }
 
 }

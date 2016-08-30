@@ -51,11 +51,6 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void showFriends(List<Friend> friends) {
         mFriendsAdapter.replaceData(friends);
     }
@@ -75,6 +70,12 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         })) {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mFriendsPresenter.onActivityDestroy();
+        super.onDestroy();
     }
 
     private void createPresenter(String vkToken) {

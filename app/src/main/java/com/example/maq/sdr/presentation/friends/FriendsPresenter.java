@@ -5,6 +5,7 @@ import android.app.LoaderManager;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.loaders.GetFriendsLoader;
 import com.example.maq.sdr.domain.loaders.LoadFriendsLoader;
+import com.example.maq.sdr.presentation.MainApplication;
 
 import java.util.List;
 
@@ -22,12 +23,16 @@ public class FriendsPresenter implements FriendsContract.Presenter{
 
     private FriendsContract.View mFriendsView;
 
+    private FriendsUpdateEventListener eventListener;
+
     public FriendsPresenter(LoaderManager loaderManager, LoadFriendsLoader loadFriendsLoader,
                             GetFriendsLoader getFriendsLoader, FriendsContract.View view) {
         mLoaderManager = loaderManager;
         mLoadFriendsLoader = loadFriendsLoader;
         mGetFriendsLoader = getFriendsLoader;
         mFriendsView = view;
+        eventListener = new FriendsUpdateEventListener(this);
+        MainApplication.getEventBus().register(eventListener);
     }
 
     @Override
@@ -45,5 +50,9 @@ public class FriendsPresenter implements FriendsContract.Presenter{
 
     public void showFriends(List<Friend> friends) {
         mFriendsView.showFriends(friends);
+    }
+
+    public void onActivityDestroy() {
+        MainApplication.getEventBus().unregister(eventListener);
     }
 }

@@ -26,6 +26,7 @@ dependencies {
     compile 'joda-time:joda-time:2.9.4'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.google.guava:guava:19.0'
 
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.vk:androidsdk:1.6.5'

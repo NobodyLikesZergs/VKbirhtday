@@ -9,15 +9,20 @@ import com.example.maq.sdr.data.local.LocalDataSource;
 import com.example.maq.sdr.data.local.LocalDataSourceImpl;
 import com.example.maq.sdr.data.remote.RemoteDataSource;
 import com.example.maq.sdr.data.remote.RemoteDataSourceImpl;
+import com.google.common.eventbus.EventBus;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKAccessTokenTracker;
 import com.vk.sdk.VKSdk;
 
 public class MainApplication extends Application {
+
+    public static final String LOG_TAG = "log tag";
+
+    private static EventBus eventBus;
+
     private DataSource mDataSource;
 
     private String vkToken;
-    public static final String LOG_TAG = "log tag";
 
     VKAccessTokenTracker vkAccessTokenTracker = new VKAccessTokenTracker() {
         @Override
@@ -35,6 +40,7 @@ public class MainApplication extends Application {
         LocalDataSource localDataSource = LocalDataSourceImpl.getInstance(this);
         RemoteDataSource remoteDataSource = RemoteDataSourceImpl.getInstance(vkToken);
         mDataSource = DataSourceImpl.getInstance(localDataSource, remoteDataSource);
+
     }
 
     public String getVkToken() {
@@ -44,6 +50,13 @@ public class MainApplication extends Application {
     public void setVkToken(String vkToken) {
         this.vkToken = vkToken;
         mDataSource.setVkToken(vkToken);
+    }
+
+    public static EventBus getEventBus() {
+        if (eventBus == null) {
+            eventBus = new EventBus();
+        }
+        return eventBus;
     }
 
     public DataSource getDataSource() {
