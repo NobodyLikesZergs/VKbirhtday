@@ -9,18 +9,24 @@ import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.presentation.MainApplication;
 import com.example.maq.sdr.presentation.friends.FriendsUpdateEvent;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 public class DataSourceImpl implements DataSource{
 
     private LocalDataSource mLocalDataSource;
+
     private RemoteDataSource mRemoteDataSource;
 
     private static DataSourceImpl INSTANCE;
 
+    private DateTime mLastFriendsUpdate;
+
     private DataSourceImpl(LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
-        this.mLocalDataSource = localDataSource;
-        this.mRemoteDataSource = remoteDataSource;
+        mLocalDataSource = localDataSource;
+        mRemoteDataSource = remoteDataSource;
+        mLastFriendsUpdate = new DateTime().minusHours(1);
     }
 
     public static DataSourceImpl getInstance(LocalDataSource localDataSource,
@@ -31,17 +37,10 @@ public class DataSourceImpl implements DataSource{
     }
 
     @Override
-    public List<Friend> getFriends(boolean refreshFriends) {
-        List<Friend> result = getFriends();
-        if (refreshFriends) {
-            refreshFriends();
-        }
-        return result;
-    }
-
-    @Override
     public List<Friend> getFriends() {
-        return mLocalDataSource.getFriends();
+        List<Friend> result = mLocalDataSource.getFriends();
+        refreshFriends();
+        return result;
     }
 
     @Override
@@ -65,8 +64,12 @@ public class DataSourceImpl implements DataSource{
     }
 
     private void refreshFriends() {
-        Log.i(MainApplication.LOG_TAG, "refreshFriends");
-        new RefreshFriendsTask().execute();
+        DateTime currentTime = new DateTime();
+        if (currentTime.minusMinutes(15).getMillis() > mLastFriendsUpdate.getMillis()) {
+            Log.i(MainApplication.LOG_TAG, "refreshFriends");
+            new RefreshFriendsTask().execute();
+            mLastFriendsUpdate = currentTime;
+        }
     }
 
     class RefreshFriendsTask extends AsyncTask<Void, Void, Void> {

@@ -17,7 +17,7 @@ public interface FriendsContract {
 
     interface Presenter {
 
-        void getFriends(boolean refreshList);
+        void getFriends();
 
     }
 }

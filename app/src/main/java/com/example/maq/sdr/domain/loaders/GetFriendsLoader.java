@@ -12,17 +12,14 @@ public class GetFriendsLoader extends AsyncTaskLoader<List<Friend>>{
 
     private DataSource mRepository;
 
-    private boolean refreshList;
-
-    public GetFriendsLoader(Context context, DataSource dataRepository, boolean refreshList) {
+    public GetFriendsLoader(Context context, DataSource dataRepository) {
         super(context);
         mRepository = dataRepository;
-        this.refreshList = refreshList;
     }
 
     @Override
     public List<Friend> loadInBackground() {
-        return mRepository.getFriends(refreshList);
+        return mRepository.getFriends();
     }
 
     @Override

@@ -85,6 +85,6 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
     private void createPresenter(String vkToken) {
         DataSource dataSource = ((MainApplication)getApplication()).getDataSource();
         mFriendsPresenter = new FriendsPresenter(getLoaderManager(), dataSource, this);
-        mFriendsPresenter.getFriends(true);
+        mFriendsPresenter.getFriends();
     }
 }

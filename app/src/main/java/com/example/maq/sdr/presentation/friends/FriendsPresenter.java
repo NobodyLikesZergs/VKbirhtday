@@ -35,10 +35,8 @@ public class FriendsPresenter implements FriendsContract.Presenter,
     }
 
     @Override
-    public void getFriends(boolean refreshList) {
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("refreshList", refreshList);
-        mLoaderManager.restartLoader(GET_FRIENDS_LOADER_ID, bundle, this)
+    public void getFriends() {
+        mLoaderManager.restartLoader(GET_FRIENDS_LOADER_ID, null, this)
                 .forceLoad();
     }
 
@@ -52,8 +50,7 @@ public class FriendsPresenter implements FriendsContract.Presenter,
 
     @Override
     public Loader<List<Friend>> onCreateLoader(int id, Bundle args) {
-        return new GetFriendsLoader(mFriendsView.getCurrentContext(), mDataSource,
-                args.getBoolean("refreshList"));
+        return new GetFriendsLoader(mFriendsView.getCurrentContext(), mDataSource);
     }
 
     @Override
