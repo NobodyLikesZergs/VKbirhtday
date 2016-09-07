@@ -41,11 +41,12 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         mRecyclerView.setAdapter(mFriendsAdapter);
 
         if (VKAccessToken.currentToken() == null) {
-            VKSdk.login(this, VKScope.FRIENDS);
+            VKSdk.login(this, VKScope.FRIENDS, VKScope.MESSAGES);
         } else {
             ((MainApplication)getApplication())
                     .setVkToken(VKAccessToken.currentToken().accessToken);
             createPresenter(VKAccessToken.currentToken().accessToken);
+            ((MainApplication)getApplication()).startService();
         }
     }
 
@@ -65,6 +66,7 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
             @Override
             public void onResult(VKAccessToken res) {
                 createPresenter(res.accessToken);
+                ((MainApplication)getApplication()).startService();
                 Log.i("Vk onResult token:", res.accessToken);
             }
             @Override

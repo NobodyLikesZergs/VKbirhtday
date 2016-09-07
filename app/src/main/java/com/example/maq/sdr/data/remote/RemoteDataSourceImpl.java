@@ -2,7 +2,11 @@ package com.example.maq.sdr.data.remote;
 
 import android.util.Log;
 
+import com.example.maq.sdr.data.remote.beans.AccountResponseBean;
+import com.example.maq.sdr.data.remote.beans.SendMessageResponseBean;
+import com.example.maq.sdr.data.remote.beans.VkAccountBean;
 import com.example.maq.sdr.domain.entities.Friend;
+import com.example.maq.sdr.domain.entities.Message;
 import com.example.maq.sdr.presentation.MainApplication;
 
 import java.io.IOException;
@@ -24,33 +28,30 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
 
     private static RemoteDataSourceImpl INSTANCE;
 
-    private RemoteDataSourceImpl(String vkToken) {
+    private RemoteDataSourceImpl() {
         this.mService = new Retrofit.Builder()
                 .baseUrl(mBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(VkApiRetrofit.class);
-        mVkToken = vkToken;
     }
 
     public static RemoteDataSourceImpl getInstance(String vkToken) {
         if (INSTANCE == null)
-            INSTANCE = new RemoteDataSourceImpl(vkToken);
-        else
-            INSTANCE.setVkToken(vkToken);
+            INSTANCE = new RemoteDataSourceImpl();
+        INSTANCE.setVkToken(vkToken);
         return INSTANCE;
     }
 
     @Override
     public List<Friend> getFriends() {
-        Call<ResponseBean> call = mService.getVkAccountsList(mVkToken);
-        Response<ResponseBean> response = null;
+        Call<AccountResponseBean> call = mService.getVkAccountsList(mVkToken);
+        Response<AccountResponseBean> response = null;
         try {
             response = call.execute();
         } catch (IOException e) {
             return null;
         }
         List<Friend> result = new ArrayList<>();
-        Log.i(MainApplication.LOG_TAG, "remote loadFriends: " + response.raw().toString());
         for (VkAccountBean accountBean: response.body().getVkAccountBeanList()) {
             result.add(new Friend(accountBean.createVkAccountObject()));
         }
@@ -60,6 +61,19 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
     @Override
     public Friend getFriend(int id) {
         return null;
+    }
+
+    @Override
+    public void sendMessage(Message message) {
+        Call<SendMessageResponseBean> call = mService.sendMessage(message.getAccount().getId(),
+                message.getText(), mVkToken);
+        Response<SendMessageResponseBean> response = null;
+        try {
+            response = call.execute();
+        } catch (IOException e) {
+            return;
+        }
+        Log.i(MainApplication.LOG_TAG, "sendMessage response: " + response.raw().toString());
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.example.maq.sdr.data.local.entries.AccountEntry;
 import com.example.maq.sdr.data.local.entries.FriendEntry;
 import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
+import com.example.maq.sdr.domain.entities.Message;
 import com.example.maq.sdr.domain.entities.VkAccount;
 import com.example.maq.sdr.presentation.MainApplication;
 
@@ -62,6 +63,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
         }
         if (c != null)
             c.close();
+        Log.i(MainApplication.LOG_TAG, "local get friends");
         return friends;
     }
 
@@ -84,6 +86,11 @@ public class LocalDataSourceImpl implements LocalDataSource{
         for(Friend friend: friends) {
             saveFriend(friend);
         }
+    }
+
+    @Override
+    public List<Message> getTodayMessages() {
+        return null;
     }
 
     private void deleteAllFriends() {

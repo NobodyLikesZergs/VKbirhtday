@@ -1,12 +1,19 @@
 package com.example.maq.sdr.domain.entities;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public class Message {
     private String text;
     private Account account;
-    private Date time;
+    private DateTime date;
     private Friend friend;
+
+    public Message (String text, Account account, DateTime date, Friend friend) {
+        this.text = text;
+        this.account = account;
+        this.date = date;
+        this.friend = friend;
+    }
 
     public String getText() {
         return text;
@@ -24,19 +31,19 @@ public class Message {
         this.account = account;
     }
 
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
     public Friend getFriend() {
         return friend;
     }
 
     public void setFriend(Friend friend) {
         this.friend = friend;
+    }
+
+    public DateTime getDate() {
+        return date;
+    }
+
+    public void setDateTime(DateTime date) {
+        this.date = date;
     }
 }

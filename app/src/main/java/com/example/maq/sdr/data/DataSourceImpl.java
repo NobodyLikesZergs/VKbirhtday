@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.maq.sdr.data.local.LocalDataSource;
 import com.example.maq.sdr.data.remote.RemoteDataSource;
 import com.example.maq.sdr.domain.entities.Friend;
+import com.example.maq.sdr.domain.entities.Message;
 import com.example.maq.sdr.presentation.MainApplication;
 import com.example.maq.sdr.presentation.friends.FriendsUpdateEvent;
 
@@ -49,6 +50,11 @@ public class DataSourceImpl implements DataSource{
     }
 
     @Override
+    public void sendMessage(Message message) {
+        mRemoteDataSource.sendMessage(message);
+    }
+
+    @Override
     public void saveFriend(Friend friend) {
 
     }
@@ -56,6 +62,11 @@ public class DataSourceImpl implements DataSource{
     @Override
     public void saveFriends(List<Friend> friends) {
         mLocalDataSource.saveFriends(friends);
+    }
+
+    @Override
+    public List<Message> getTodayMessages() {
+        return null;
     }
 
     @Override
