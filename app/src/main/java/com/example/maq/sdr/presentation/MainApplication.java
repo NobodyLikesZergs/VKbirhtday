@@ -13,7 +13,7 @@ import com.example.maq.sdr.data.local.LocalDataSource;
 import com.example.maq.sdr.data.local.LocalDataSourceImpl;
 import com.example.maq.sdr.data.remote.RemoteDataSource;
 import com.example.maq.sdr.data.remote.RemoteDataSourceImpl;
-import com.example.maq.sdr.domain.service.MessageManager;
+import com.example.maq.sdr.domain.service.AlarmsReceiver;
 import com.google.common.eventbus.EventBus;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKAccessTokenTracker;
@@ -67,14 +67,10 @@ public class MainApplication extends Application {
 
     public void startService() {
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, MessageManager.class);
+        Intent intent = new Intent(this, AlarmsReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent,
-                PendingIntent.FLAG_NO_CREATE);
-        if (pendingIntent == null) {
-            Log.i(MainApplication.LOG_TAG, "mainApp: service started");
-            pendingIntent = PendingIntent.getBroadcast(this, 0, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 15000, pendingIntent);
-        }
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 15000, pendingIntent);
+        Log.i(MainApplication.LOG_TAG, "mainApp: service started");
     }
 }

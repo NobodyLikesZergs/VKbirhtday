@@ -20,7 +20,9 @@
         <activity android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity" android:theme="@style/VK.Transparent" />
 
-        <receiver android:name=".domain.service.MessageManager" />
+        <receiver android:name=".domain.service.AlarmsReceiver" />
+
+        <service android:name=".domain.service.MessageService" />
 
     </application>
 
