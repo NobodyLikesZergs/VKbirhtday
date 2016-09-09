@@ -1,5 +1,6 @@
 package com.example.maq.sdr.data.remote;
 
+import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.entities.Message;
 
@@ -11,7 +12,7 @@ public interface RemoteDataSource {
 
     Friend getFriend(int id);
 
-    void sendMessage(Message message);
+    void sendMessage(Account account, Message message);
 
     void setVkToken(String vkToken);
 }

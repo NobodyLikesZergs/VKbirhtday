@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.maq.sdr.data.remote.beans.AccountResponseBean;
 import com.example.maq.sdr.data.remote.beans.SendMessageResponseBean;
 import com.example.maq.sdr.data.remote.beans.VkAccountBean;
+import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.entities.Message;
 import com.example.maq.sdr.presentation.MainApplication;
@@ -64,8 +65,8 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
     }
 
     @Override
-    public void sendMessage(Message message) {
-        Call<SendMessageResponseBean> call = mService.sendMessage(message.getAccount().getId(),
+    public void sendMessage(Account account, Message message) {
+        Call<SendMessageResponseBean> call = mService.sendMessage(account.getId(),
                 message.getText(), mVkToken);
         Response<SendMessageResponseBean> response = null;
         try {

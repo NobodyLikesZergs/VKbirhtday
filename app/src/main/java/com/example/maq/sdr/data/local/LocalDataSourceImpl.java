@@ -44,7 +44,6 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 FriendEntry.ID_COLUMN,
                 FriendEntry.NAME_COLUMN,
                 FriendEntry.BIRTH_DATE_COLUMN,
-                FriendEntry.IS_ACTIVE,
                 FriendEntry.IMG_URL_COLUMN,
         };
         Cursor c = mDb.query(FriendEntry.TABLE_NAME, columns, selection, selectionArgs,
@@ -54,11 +53,9 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 String id = c.getString(c.getColumnIndex(FriendEntry.ID_COLUMN));
                 String name = c.getString(c.getColumnIndex(FriendEntry.NAME_COLUMN));
                 String birthDate = c.getString(c.getColumnIndex(FriendEntry.BIRTH_DATE_COLUMN));
-                Boolean isActive = new Boolean(
-                        c.getString(c.getColumnIndex(FriendEntry.IS_ACTIVE)));
                 String imgUrl = c.getString(c.getColumnIndex(FriendEntry.IMG_URL_COLUMN));
                 Friend friend = new Friend(id, name, birthDate,
-                        imgUrl, isActive, getAccountsByFriendId(id));
+                        imgUrl, getAccountsByFriendId(id));
                 friends.add(friend);
             }
         }
@@ -73,14 +70,6 @@ public class LocalDataSourceImpl implements LocalDataSource{
         return getFriendByCondition(null, null);
     }
 
-    private Friend getFriend(String id) {
-        String args[] = {id};
-        List<Friend> friendList = getFriendByCondition(FriendEntry.ID_COLUMN + "=?", args);
-        if (friendList.isEmpty())
-            return null;
-        return friendList.get(0);
-    }
-
     @Override
     public void saveFriend(Friend friend) {
         ContentValues values = new ContentValues();
@@ -88,7 +77,6 @@ public class LocalDataSourceImpl implements LocalDataSource{
         values.put(FriendEntry.BIRTH_DATE_COLUMN, friend.getBirthDate());
         values.put(FriendEntry.IMG_URL_COLUMN, friend.getImgUrl());
         values.put(FriendEntry.NAME_COLUMN, friend.getName());
-        values.put(FriendEntry.IS_ACTIVE, String.valueOf(friend.isActive()));
         mDb.insert(FriendEntry.TABLE_NAME, null, values);
         saveAccounts(friend);
     }
@@ -114,7 +102,6 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 AccountEntry.ID_COLUMN,
                 AccountEntry.NAME_COLUMN,
                 AccountEntry.BIRTH_DATE_COLUMN,
-                AccountEntry.IS_ACTIVE,
                 AccountEntry.IMG_URL_COLUMN,
         };
         Cursor c = mDb.query(AccountEntry.TABLE_NAME, columns, selection, selectionArgs,
@@ -124,10 +111,9 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 String id = c.getString(c.getColumnIndex(AccountEntry.ID_COLUMN));
                 String name = c.getString(c.getColumnIndex(AccountEntry.NAME_COLUMN));
                 String birthDate = c.getString(c.getColumnIndex(FriendEntry.BIRTH_DATE_COLUMN));
-                Boolean isActive = new Boolean(
-                        c.getString(c.getColumnIndex(FriendEntry.IS_ACTIVE)));
                 String imgUrl = c.getString(c.getColumnIndex(FriendEntry.IMG_URL_COLUMN));
-                Account account = new VkAccount(id, isActive, imgUrl, birthDate, name);
+                Account account = new VkAccount(id, imgUrl, birthDate,
+                        getMessagesByAccountId(id), name);
                 accounts.add(account);
             }
         }
@@ -141,15 +127,6 @@ public class LocalDataSourceImpl implements LocalDataSource{
         return getAccountsByCondition(AccountEntry.FRIEND_ID_COLUMN + "=?", args);
     }
 
-    private Account getAccountById(String id) {
-        String args[] = {id};
-        List<Account> accounts = getAccountsByCondition(AccountEntry.ID_COLUMN + " = ?", args);
-        if (accounts.isEmpty())
-            return null;
-        return accounts.get(0);
-    }
-
-
     private void saveAccounts(Friend friend) {
         for (Account account: friend.getAccountList()) {
             saveAccount(account, friend);
@@ -162,9 +139,9 @@ public class LocalDataSourceImpl implements LocalDataSource{
         values.put(AccountEntry.NAME_COLUMN, account.getName());
         values.put(AccountEntry.BIRTH_DATE_COLUMN, account.getBirthDate());
         values.put(AccountEntry.IMG_URL_COLUMN, account.getImgUrl());
-        values.put(AccountEntry.IS_ACTIVE, String.valueOf(account.isActive()));
         values.put(AccountEntry.FRIEND_ID_COLUMN, friend.getId());
         mDb.insert(AccountEntry.TABLE_NAME, null, values);
+        saveMessages(friend, account);
     }
 
     private void deleteAllAccounts() {
@@ -172,8 +149,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
         mDb.execSQL("DELETE FROM " + AccountEntry.TABLE_NAME + " WHERE 1=1");
     }
 
-    @Override
-    public List<Message> getMessages() {
+    private List<Message> getMessagesByCondition(String selection, String[] selectionArgs) {
         List<Message> messages = new LinkedList<>();
         String[] columns = {
                 MessageEntry.ID_COLUMN,
@@ -182,16 +158,14 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 MessageEntry.FRIEND_ID_COLUMN,
                 MessageEntry.ACCOUNT_ID_COLUMN,
         };
-        Cursor c = mDb.query(MessageEntry.TABLE_NAME, columns, null, null, null, null, null);
+        Cursor c = mDb.query(MessageEntry.TABLE_NAME, columns, selection, selectionArgs,
+                null, null, null);
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
-                String id = c.getString(c.getColumnIndex(MessageEntry.ID_COLUMN));
                 String text = c.getString(c.getColumnIndex(MessageEntry.TEXT_COLUMN));
+                String id = c.getString(c.getColumnIndex(MessageEntry.ID_COLUMN));
                 String date = c.getString(c.getColumnIndex(MessageEntry.DATE_COLUMN));
-                String friendId = c.getString(c.getColumnIndex(MessageEntry.FRIEND_ID_COLUMN));
-                String accountId = c.getString(c.getColumnIndex(MessageEntry.ACCOUNT_ID_COLUMN));
-                Message message = new Message(text, getAccountById(accountId), date,
-                        getFriend(friendId));
+                Message message = new Message(id, text, date);
                 messages.add(message);
             }
         }
@@ -200,14 +174,30 @@ public class LocalDataSourceImpl implements LocalDataSource{
         return messages;
     }
 
-    @Override
-    public void saveMessage(Message message) {
+    private List<Message> getMessagesByAccountId(String accountId) {
+        String args[] = {accountId};
+        return getMessagesByCondition(MessageEntry.ACCOUNT_ID_COLUMN + "=?", args);
+    }
+
+    private void saveMessages(Friend friend, Account account) {
+        for (Message message: account.getMessageList()) {
+            saveMessage(friend, account, message);
+        }
+    }
+
+    private void saveMessage(Friend friend, Account account, Message message) {
+        deleteMessage(message.getId());
         ContentValues values = new ContentValues();
         values.put(MessageEntry.ID_COLUMN, message.getId());
         values.put(MessageEntry.DATE_COLUMN, message.getDate());
         values.put(MessageEntry.TEXT_COLUMN, message.getText());
-        values.put(MessageEntry.FRIEND_ID_COLUMN, message.getFriend().getId());
-        values.put(MessageEntry.ACCOUNT_ID_COLUMN, message.getAccount().getId());
+        values.put(MessageEntry.FRIEND_ID_COLUMN, friend.getId());
+        values.put(MessageEntry.ACCOUNT_ID_COLUMN, account.getId());
         mDb.insert(MessageEntry.TABLE_NAME, null, values);
+    }
+
+    private void deleteMessage(String messageId) {
+        mDb.execSQL("DELETE FROM " + FriendEntry.TABLE_NAME +
+                " WHERE " + MessageEntry.ID_COLUMN + "="+ messageId);
     }
 }

@@ -1,8 +1,11 @@
 package com.example.maq.sdr.data.remote.beans;
 
+import com.example.maq.sdr.domain.entities.Message;
 import com.example.maq.sdr.domain.entities.VkAccount;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.LinkedList;
 
 public class VkAccountBean {
 
@@ -26,6 +29,7 @@ public class VkAccountBean {
     private String birthDate;
 
     public VkAccount createVkAccountObject() {
-        return new VkAccount(id, false, imgUrl, birthDate, firstName, lastName);
+        return new VkAccount(id, imgUrl, birthDate, new LinkedList<Message>(),
+                firstName, lastName);
     }
 }

@@ -16,8 +16,6 @@ public class Friend {
 
     private String imgUrl;
 
-    private boolean isActive;
-
     private List<Account> accountList;
 
     private String[] dateFormats = {"dd.MM.yyyy", "dd.MM"};
@@ -25,12 +23,11 @@ public class Friend {
     private String currentDateFormat;
 
     public Friend (String id, String name, String birthDate, String imgUrl,
-                   boolean isActive, List<Account> accounts) {
+                   List<Account> accounts) {
         this.id = id;
         this.name = name;
         setBirthDate(birthDate);
         this.imgUrl = imgUrl;
-        this.isActive = isActive;
         this.accountList = accounts;
     }
 
@@ -39,7 +36,6 @@ public class Friend {
         name = account.getName();
         setBirthDate(account.getBirthDate());
         imgUrl = account.getImgUrl();
-        isActive = account.isActive();
         accountList = new LinkedList<>();
         accountList.add(account);
     }
@@ -99,13 +95,5 @@ public class Friend {
 
     public void setAccountList(List<Account> accountList) {
         this.accountList = accountList;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 }

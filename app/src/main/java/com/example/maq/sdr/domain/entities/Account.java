@@ -1,12 +1,12 @@
 package com.example.maq.sdr.domain.entities;
 
+import java.util.List;
+
 public abstract class Account {
 
     private String id;
 
     private AccountType accountType;
-
-    private boolean isActive;
 
     private String imgUrl;
 
@@ -14,14 +14,16 @@ public abstract class Account {
 
     private String birthDate;
 
-    public Account(AccountType accountType, String id, boolean isActive, String imgUrl,
-                   String birthDate, String name) {
+    private List<Message> messageList;
+
+    public Account(AccountType accountType, String id, String imgUrl,
+                   String birthDate, List<Message> messageList, String name) {
         this.id = id;
         this.accountType = accountType;
-        this.isActive = isActive;
         this.imgUrl = imgUrl;
         this.birthDate = birthDate;
         this.name = name;
+        this.messageList = messageList;
     }
 
     public String getId() {
@@ -38,14 +40,6 @@ public abstract class Account {
 
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 
     public String getImgUrl() {
@@ -70,5 +64,13 @@ public abstract class Account {
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public List<Message> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
     }
 }

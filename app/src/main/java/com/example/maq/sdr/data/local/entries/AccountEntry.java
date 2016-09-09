@@ -12,8 +12,6 @@ public class AccountEntry {
 
     public static final String IMG_URL_COLUMN = "IMG_URL";
 
-    public static final String IS_ACTIVE = "IS_ACTIVE";
-
     public static final String FRIEND_ID_COLUMN = "FRIEND_ID";
 
 }

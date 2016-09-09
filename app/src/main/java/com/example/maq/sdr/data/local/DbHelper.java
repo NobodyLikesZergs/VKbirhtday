@@ -23,8 +23,7 @@ public class DbHelper extends SQLiteOpenHelper{
             FriendEntry.ID_COLUMN + TEXT_TYPE + " PRIMARY KEY," +
             FriendEntry.NAME_COLUMN + TEXT_TYPE + "," +
             FriendEntry.BIRTH_DATE_COLUMN + TEXT_TYPE + "," +
-            FriendEntry.IMG_URL_COLUMN + TEXT_TYPE + "," +
-            FriendEntry.IS_ACTIVE + TEXT_TYPE +
+            FriendEntry.IMG_URL_COLUMN + TEXT_TYPE +
             " )";
 
     private final String SQL_CREATE_ACCOUNT_TABLE = "CREATE TABLE " +
@@ -33,10 +32,7 @@ public class DbHelper extends SQLiteOpenHelper{
             AccountEntry.FRIEND_ID_COLUMN + TEXT_TYPE + "," +
             AccountEntry.NAME_COLUMN + TEXT_TYPE + "," +
             AccountEntry.BIRTH_DATE_COLUMN + TEXT_TYPE + "," +
-            AccountEntry.IMG_URL_COLUMN + TEXT_TYPE + "," +
-            AccountEntry.IS_ACTIVE + TEXT_TYPE + "," +
-            "FOREIGN KEY(" + AccountEntry.FRIEND_ID_COLUMN + ") REFERENCES " +
-            FriendEntry.TABLE_NAME + "(" + FriendEntry.ID_COLUMN + ")" +
+            AccountEntry.IMG_URL_COLUMN + TEXT_TYPE +
             " )";
 
     private final String SQL_CREATE_MESSAGE_TABLE = "CREATE TABLE " +
@@ -45,11 +41,7 @@ public class DbHelper extends SQLiteOpenHelper{
             MessageEntry.FRIEND_ID_COLUMN + TEXT_TYPE + "," +
             MessageEntry.ACCOUNT_ID_COLUMN + TEXT_TYPE + "," +
             MessageEntry.TEXT_COLUMN + TEXT_TYPE + "," +
-            MessageEntry.DATE_COLUMN + TEXT_TYPE + "," +
-            "FOREIGN KEY(" + MessageEntry.FRIEND_ID_COLUMN + ") REFERENCES " +
-            FriendEntry.TABLE_NAME + "(" + FriendEntry.ID_COLUMN + ")," +
-            "FOREIGN KEY(" + MessageEntry.ACCOUNT_ID_COLUMN + ") REFERENCES " +
-            AccountEntry.TABLE_NAME + "(" + AccountEntry.ID_COLUMN + ")" +
+            MessageEntry.DATE_COLUMN + TEXT_TYPE +
             " )";
 
     public DbHelper(Context context) {

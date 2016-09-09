@@ -12,5 +12,4 @@ public class FriendEntry {
 
     public static final String IMG_URL_COLUMN = "IMG_URL";
 
-    public static final String IS_ACTIVE = "IS_ACTIVE";
 }

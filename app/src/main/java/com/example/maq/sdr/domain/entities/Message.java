@@ -7,15 +7,12 @@ public class Message {
 
     private String id;
     private String text;
-    private Account account;
     private DateTime date;
-    private Friend friend;
     private String[] dateFormats = {"dd.MM.yyyy", "dd.MM"};
 
-    public Message (String text, Account account, String date, Friend friend) {
+    public Message (String id, String text, String date) {
+        this.id = id;
         this.text = text;
-        this.account = account;
-        this.friend = friend;
         setDate(date);
     }
 
@@ -25,22 +22,6 @@ public class Message {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public Friend getFriend() {
-        return friend;
-    }
-
-    public void setFriend(Friend friend) {
-        this.friend = friend;
     }
 
     private void setDate(String date) {
