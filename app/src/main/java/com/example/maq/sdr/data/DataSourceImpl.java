@@ -65,8 +65,13 @@ public class DataSourceImpl implements DataSource{
     }
 
     @Override
-    public List<Message> getTodayMessages() {
-        return null;
+    public List<Message> getMessages() {
+        return mLocalDataSource.getMessages();
+    }
+
+    @Override
+    public void saveMessage(Message message) {
+
     }
 
     @Override

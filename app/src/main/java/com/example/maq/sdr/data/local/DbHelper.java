@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.maq.sdr.data.local.entries.AccountEntry;
 import com.example.maq.sdr.data.local.entries.FriendEntry;
+import com.example.maq.sdr.data.local.entries.MessageEntry;
 
 public class DbHelper extends SQLiteOpenHelper{
 
@@ -38,6 +39,19 @@ public class DbHelper extends SQLiteOpenHelper{
             FriendEntry.TABLE_NAME + "(" + FriendEntry.ID_COLUMN + ")" +
             " )";
 
+    private final String SQL_CREATE_MESSAGE_TABLE = "CREATE TABLE " +
+            MessageEntry.TABLE_NAME + " (" +
+            MessageEntry.ID_COLUMN + TEXT_TYPE + " PRIMARY KEY," +
+            MessageEntry.FRIEND_ID_COLUMN + TEXT_TYPE + "," +
+            MessageEntry.ACCOUNT_ID_COLUMN + TEXT_TYPE + "," +
+            MessageEntry.TEXT_COLUMN + TEXT_TYPE + "," +
+            MessageEntry.DATE_COLUMN + TEXT_TYPE + "," +
+            "FOREIGN KEY(" + MessageEntry.FRIEND_ID_COLUMN + ") REFERENCES " +
+            FriendEntry.TABLE_NAME + "(" + FriendEntry.ID_COLUMN + ")," +
+            "FOREIGN KEY(" + MessageEntry.ACCOUNT_ID_COLUMN + ") REFERENCES " +
+            AccountEntry.TABLE_NAME + "(" + AccountEntry.ID_COLUMN + ")" +
+            " )";
+
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -46,6 +60,7 @@ public class DbHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_FRIEND_TABLE);
         db.execSQL(SQL_CREATE_ACCOUNT_TABLE);
+        db.execSQL(SQL_CREATE_MESSAGE_TABLE);
     }
 
     @Override

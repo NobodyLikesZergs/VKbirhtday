@@ -69,8 +69,12 @@ public class MainApplication extends Application {
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmsReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 15000, pendingIntent);
-        Log.i(MainApplication.LOG_TAG, "mainApp: service started");
+                PendingIntent.FLAG_NO_CREATE);
+        if (pendingIntent == null) {
+            pendingIntent = PendingIntent.getBroadcast(this, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 15000, pendingIntent);
+            Log.i(MainApplication.LOG_TAG, "mainApp: service started");
+        }
     }
 }

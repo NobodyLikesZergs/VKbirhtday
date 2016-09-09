@@ -13,5 +13,7 @@ public interface LocalDataSource {
 
     void saveFriends(List<Friend> friends);
 
-    List<Message> getTodayMessages();
+    List<Message> getMessages();
+
+    void saveMessage(Message message);
 }
