@@ -1,5 +1,6 @@
 package com.example.maq.sdr.domain.entities;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Account {
@@ -23,7 +24,11 @@ public abstract class Account {
         this.imgUrl = imgUrl;
         this.birthDate = birthDate;
         this.name = name;
-        this.messageList = messageList;
+        if (messageList == null) {
+            this.messageList = new LinkedList<>();
+        } else {
+            this.messageList = messageList;
+        }
     }
 
     public String getId() {
@@ -72,5 +77,9 @@ public abstract class Account {
 
     public void setMessageList(List<Message> messageList) {
         this.messageList = messageList;
+    }
+
+    public void addMessage(Message message) {
+        this.messageList.add(message);
     }
 }

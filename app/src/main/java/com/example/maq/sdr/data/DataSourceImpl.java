@@ -72,7 +72,7 @@ public class DataSourceImpl implements DataSource{
 
     private void refreshFriends() {
         DateTime currentTime = new DateTime();
-        if (currentTime.minusMinutes(15).getMillis() > mLastFriendsUpdate.getMillis()) {
+        if (currentTime.minusMinutes(1).getMillis() > mLastFriendsUpdate.getMillis()) {
             Log.i(MainApplication.LOG_TAG, "refreshFriends");
             new RefreshFriendsTask().execute();
             mLastFriendsUpdate = currentTime;

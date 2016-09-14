@@ -65,6 +65,18 @@ public class Friend {
         return birthDate.toString(DateTimeFormat.forPattern(currentDateFormat));
     }
 
+    public long getDayOfMonth() {
+        if (birthDate == null)
+            return -1;
+        return birthDate.getDayOfMonth();
+    }
+
+    public long getMonthOfYear() {
+        if (birthDate == null)
+            return -1;
+        return birthDate.getMonthOfYear();
+    }
+
     public String getId() {
         return id;
     }

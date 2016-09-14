@@ -44,7 +44,11 @@ public class FriendsPresenter implements FriendsContract.Presenter,
         mFriendsView.showFriends(friends);
     }
 
-    public void onActivityDestroy() {
+    public void onActivityRestart() {
+        MainApplication.getEventBus().register(mEventListener);
+    }
+
+    public void onActivityStop() {
         MainApplication.getEventBus().unregister(mEventListener);
     }
 

@@ -79,9 +79,17 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
     }
 
     @Override
-    protected void onDestroy() {
-        mFriendsPresenter.onActivityDestroy();
-        super.onDestroy();
+    protected void onRestart() {
+        Log.i(MainApplication.LOG_TAG, "Activity onRestart");
+        mFriendsPresenter.onActivityRestart();
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.i(MainApplication.LOG_TAG, "Activity onStop");
+        mFriendsPresenter.onActivityStop();
+        super.onStop();
     }
 
     private void createPresenter(String vkToken) {

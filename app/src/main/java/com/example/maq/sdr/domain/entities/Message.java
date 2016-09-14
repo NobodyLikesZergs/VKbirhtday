@@ -7,13 +7,14 @@ public class Message {
 
     private String id;
     private String text;
-    private DateTime date;
+    private DateTime birthDate;
     private String[] dateFormats = {"dd.MM.yyyy", "dd.MM"};
+    private String currentDateFormat;
 
     public Message (String id, String text, String date) {
         this.id = id;
         this.text = text;
-        setDate(date);
+        setBirthDate(date);
     }
 
     public String getText() {
@@ -24,13 +25,12 @@ public class Message {
         this.text = text;
     }
 
-    private void setDate(String date) {
-        if (date != null) {
+    private void setBirthDate(String birthDate) {
+        if (birthDate != null) {
             for (String format : dateFormats) {
                 try {
-                    this.date = DateTimeFormat.forPattern(format).parseDateTime(date);
-                    this.date = new DateTime(0, this.date.getMonthOfYear(),
-                            this.date.getDayOfMonth(), 0, 0);
+                    this.birthDate = DateTimeFormat.forPattern(format).parseDateTime(birthDate);
+                    currentDateFormat = format;
                     return;
                 } catch (Exception e) {
                 }
@@ -38,11 +38,23 @@ public class Message {
         }
     }
 
-    public String getDate() {
-        if (this.date == null) {
+    public String getBirthDate() {
+        if (birthDate == null) {
             return "";
         }
-        return this.date.toString(DateTimeFormat.forPattern(dateFormats[1]));
+        return birthDate.toString(DateTimeFormat.forPattern(currentDateFormat));
+    }
+
+    public long getDayOfMonth() {
+        if (birthDate == null)
+            return -1;
+        return birthDate.getDayOfMonth();
+    }
+
+    public long getMonthOfYear() {
+        if (birthDate == null)
+            return -1;
+        return birthDate.getMonthOfYear();
     }
 
     public String getId() {

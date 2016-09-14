@@ -189,7 +189,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
         deleteMessage(message.getId());
         ContentValues values = new ContentValues();
         values.put(MessageEntry.ID_COLUMN, message.getId());
-        values.put(MessageEntry.DATE_COLUMN, message.getDate());
+        values.put(MessageEntry.DATE_COLUMN, message.getBirthDate());
         values.put(MessageEntry.TEXT_COLUMN, message.getText());
         values.put(MessageEntry.FRIEND_ID_COLUMN, friend.getId());
         values.put(MessageEntry.ACCOUNT_ID_COLUMN, account.getId());
@@ -197,7 +197,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
     }
 
     private void deleteMessage(String messageId) {
-        mDb.execSQL("DELETE FROM " + FriendEntry.TABLE_NAME +
+        mDb.execSQL("DELETE FROM " + MessageEntry.TABLE_NAME +
                 " WHERE " + MessageEntry.ID_COLUMN + "="+ messageId);
     }
 }
