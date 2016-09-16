@@ -1,7 +1,6 @@
 package com.example.maq.sdr.domain.entities;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,15 +17,11 @@ public class Friend {
 
     private List<Account> accountList;
 
-    private String[] dateFormats = {"dd.MM.yyyy", "dd.MM"};
-
-    private String currentDateFormat;
-
-    public Friend (String id, String name, String birthDate, String imgUrl,
+    public Friend (String id, String name, DateTime birthDate, String imgUrl,
                    List<Account> accounts) {
         this.id = id;
         this.name = name;
-        setBirthDate(birthDate);
+        this.birthDate = birthDate;
         this.imgUrl = imgUrl;
         this.accountList = accounts;
     }
@@ -34,7 +29,7 @@ public class Friend {
     public Friend(Account account) {
         id = account.getId();
         name = account.getName();
-        setBirthDate(account.getBirthDate());
+        this.birthDate = account.getBirthDate();
         imgUrl = account.getImgUrl();
         accountList = new LinkedList<>();
         accountList.add(account);
@@ -43,38 +38,6 @@ public class Friend {
     public Friend(List<Account> accounts) {
         this(accounts.get(0));
         setAccountList(accounts);
-    }
-
-    private void setBirthDate(String birthDate) {
-        if (birthDate != null) {
-            for (String format : dateFormats) {
-                try {
-                    this.birthDate = DateTimeFormat.forPattern(format).parseDateTime(birthDate);
-                    currentDateFormat = format;
-                    return;
-                } catch (Exception e) {
-                }
-            }
-        }
-    }
-
-    public String getBirthDate() {
-        if (birthDate == null) {
-            return "";
-        }
-        return birthDate.toString(DateTimeFormat.forPattern(currentDateFormat));
-    }
-
-    public long getDayOfMonth() {
-        if (birthDate == null)
-            return -1;
-        return birthDate.getDayOfMonth();
-    }
-
-    public long getMonthOfYear() {
-        if (birthDate == null)
-            return -1;
-        return birthDate.getMonthOfYear();
     }
 
     public String getId() {
@@ -97,9 +60,6 @@ public class Friend {
         return imgUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
 
     public List<Account> getAccountList() {
         return accountList;
@@ -107,5 +67,13 @@ public class Friend {
 
     public void setAccountList(List<Account> accountList) {
         this.accountList = accountList;
+    }
+
+    public DateTime getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(DateTime birthDate) {
+        this.birthDate = birthDate;
     }
 }

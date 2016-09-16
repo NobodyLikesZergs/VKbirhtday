@@ -56,8 +56,10 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
         for (VkAccountBean accountBean: response.body().getVkAccountBeanList()) {
 //            TODO: remove mock logic
             Account account = accountBean.createVkAccountObject();
-            account.addMessage(new Message(account.getId(),
-                    account.getName() + " " + account.getBirthDate(), account.getBirthDate()));
+            if (account.getBirthDate() != null) {
+                account.addMessage(new Message(account.getId(),
+                        account.getName() + " " + account.getBirthDate(), account.getBirthDate()));
+            }
             result.add(new Friend(account));
 //            result.add(new Friend(accountBean.createVkAccountObject()));
         }

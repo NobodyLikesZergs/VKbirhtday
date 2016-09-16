@@ -15,6 +15,8 @@ import com.example.maq.sdr.domain.entities.Message;
 import com.example.maq.sdr.domain.entities.VkAccount;
 import com.example.maq.sdr.presentation.MainApplication;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,7 +56,13 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 String name = c.getString(c.getColumnIndex(FriendEntry.NAME_COLUMN));
                 String birthDate = c.getString(c.getColumnIndex(FriendEntry.BIRTH_DATE_COLUMN));
                 String imgUrl = c.getString(c.getColumnIndex(FriendEntry.IMG_URL_COLUMN));
-                Friend friend = new Friend(id, name, birthDate,
+                DateTime parsedBirthDate;
+                if (birthDate.equals("null")) {
+                    parsedBirthDate = null;
+                } else {
+                    parsedBirthDate = DateTime.parse(birthDate);
+                }
+                Friend friend = new Friend(id, name, parsedBirthDate,
                         imgUrl, getAccountsByFriendId(id));
                 friends.add(friend);
             }
@@ -74,9 +82,13 @@ public class LocalDataSourceImpl implements LocalDataSource{
     public void saveFriend(Friend friend) {
         ContentValues values = new ContentValues();
         values.put(FriendEntry.ID_COLUMN, friend.getId());
-        values.put(FriendEntry.BIRTH_DATE_COLUMN, friend.getBirthDate());
         values.put(FriendEntry.IMG_URL_COLUMN, friend.getImgUrl());
         values.put(FriendEntry.NAME_COLUMN, friend.getName());
+        if (friend.getBirthDate() == null) {
+            values.put(FriendEntry.BIRTH_DATE_COLUMN, "null");
+        }else {
+            values.put(FriendEntry.BIRTH_DATE_COLUMN, friend.getBirthDate().toString());
+        }
         mDb.insert(FriendEntry.TABLE_NAME, null, values);
         saveAccounts(friend);
     }
@@ -110,9 +122,15 @@ public class LocalDataSourceImpl implements LocalDataSource{
             while (c.moveToNext()) {
                 String id = c.getString(c.getColumnIndex(AccountEntry.ID_COLUMN));
                 String name = c.getString(c.getColumnIndex(AccountEntry.NAME_COLUMN));
-                String birthDate = c.getString(c.getColumnIndex(FriendEntry.BIRTH_DATE_COLUMN));
-                String imgUrl = c.getString(c.getColumnIndex(FriendEntry.IMG_URL_COLUMN));
-                Account account = new VkAccount(id, imgUrl, birthDate,
+                String birthDate = c.getString(c.getColumnIndex(AccountEntry.BIRTH_DATE_COLUMN));
+                String imgUrl = c.getString(c.getColumnIndex(AccountEntry.IMG_URL_COLUMN));
+                DateTime parsedBirthDate;
+                if (birthDate.equals("null")) {
+                    parsedBirthDate = null;
+                } else {
+                    parsedBirthDate = DateTime.parse(birthDate);
+                }
+                Account account = new VkAccount(id, imgUrl, parsedBirthDate,
                         getMessagesByAccountId(id), name);
                 accounts.add(account);
             }
@@ -137,9 +155,13 @@ public class LocalDataSourceImpl implements LocalDataSource{
         ContentValues values = new ContentValues();
         values.put(AccountEntry.ID_COLUMN, account.getId());
         values.put(AccountEntry.NAME_COLUMN, account.getName());
-        values.put(AccountEntry.BIRTH_DATE_COLUMN, account.getBirthDate());
         values.put(AccountEntry.IMG_URL_COLUMN, account.getImgUrl());
         values.put(AccountEntry.FRIEND_ID_COLUMN, friend.getId());
+        if (account.getBirthDate() != null) {
+            values.put(AccountEntry.BIRTH_DATE_COLUMN, account.getBirthDate().toString());
+        } else {
+            values.put(AccountEntry.BIRTH_DATE_COLUMN, "null");
+        }
         mDb.insert(AccountEntry.TABLE_NAME, null, values);
         saveMessages(friend, account);
     }
@@ -165,7 +187,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 String text = c.getString(c.getColumnIndex(MessageEntry.TEXT_COLUMN));
                 String id = c.getString(c.getColumnIndex(MessageEntry.ID_COLUMN));
                 String date = c.getString(c.getColumnIndex(MessageEntry.DATE_COLUMN));
-                Message message = new Message(id, text, date);
+                Message message = new Message(id, text, DateTime.parse(date));
                 messages.add(message);
             }
         }
@@ -189,7 +211,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
         deleteMessage(message.getId());
         ContentValues values = new ContentValues();
         values.put(MessageEntry.ID_COLUMN, message.getId());
-        values.put(MessageEntry.DATE_COLUMN, message.getBirthDate());
+        values.put(MessageEntry.DATE_COLUMN, message.getDate().toString());
         values.put(MessageEntry.TEXT_COLUMN, message.getText());
         values.put(MessageEntry.FRIEND_ID_COLUMN, friend.getId());
         values.put(MessageEntry.ACCOUNT_ID_COLUMN, account.getId());

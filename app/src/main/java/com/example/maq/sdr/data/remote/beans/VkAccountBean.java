@@ -5,6 +5,9 @@ import com.example.maq.sdr.domain.entities.VkAccount;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import java.util.LinkedList;
 
 public class VkAccountBean {
@@ -29,7 +32,16 @@ public class VkAccountBean {
     private String birthDate;
 
     public VkAccount createVkAccountObject() {
-        return new VkAccount(id, imgUrl, birthDate, new LinkedList<Message>(),
+        DateTime parsedBirthDate = null;
+        String[] formats = {"dd.MM.yyyy", "dd.MM"};
+        for (String format: formats) {
+            try {
+                parsedBirthDate = DateTimeFormat.forPattern(format).parseDateTime(birthDate);
+            } catch (Exception e) {
+
+            }
+        }
+        return new VkAccount(id, imgUrl, parsedBirthDate, new LinkedList<Message>(),
                 firstName, lastName);
     }
 }

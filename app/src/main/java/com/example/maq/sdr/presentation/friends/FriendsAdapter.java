@@ -34,7 +34,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.name.setText(mFriends.get(position).getName());
-        holder.date.setText(mFriends.get(position).getBirthDate().toString());
+        if (mFriends.get(position).getBirthDate() == null) {
+            holder.date.setText("null");
+        }else {
+            holder.date.setText(mFriends.get(position).getBirthDate().toString());
+        }
         String src = mFriends.get(position).getImgUrl();
         Picasso.with(mContext)
                 .load(src)

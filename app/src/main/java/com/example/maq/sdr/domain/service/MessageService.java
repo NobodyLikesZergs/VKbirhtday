@@ -46,11 +46,13 @@ public class MessageService extends IntentService {
     private boolean verifyMessage(Friend friend, Account account, Message message) {
 //        TODO: check lastInteractionDate;
         DateTime currentDate = new DateTime();
-        if ((currentDate.getMonthOfYear() != message.getMonthOfYear()) ||
-                currentDate.getDayOfMonth() != message.getDayOfMonth())
+        DateTime messageDate = message.getDate();
+        DateTime friendDate = friend.getBirthDate();
+        if ((currentDate.getMonthOfYear() != messageDate.getMonthOfYear()) ||
+                currentDate.getDayOfMonth() != messageDate.getDayOfMonth())
             return false;
-        if ((friend.getMonthOfYear() != message.getMonthOfYear()) ||
-                friend.getDayOfMonth() != message.getDayOfMonth())
+        if ((friendDate.getMonthOfYear() != messageDate.getMonthOfYear()) ||
+                friendDate.getDayOfMonth() != messageDate.getDayOfMonth())
             return false;
         return true;
     }

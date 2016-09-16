@@ -1,5 +1,7 @@
 package com.example.maq.sdr.domain.entities;
 
+import org.joda.time.DateTime;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,12 +15,12 @@ public abstract class Account {
 
     private String name;
 
-    private String birthDate;
+    private DateTime birthDate;
 
     private List<Message> messageList;
 
     public Account(AccountType accountType, String id, String imgUrl,
-                   String birthDate, List<Message> messageList, String name) {
+                   DateTime birthDate, List<Message> messageList, String name) {
         this.id = id;
         this.accountType = accountType;
         this.imgUrl = imgUrl;
@@ -39,20 +41,8 @@ public abstract class Account {
         this.id = id;
     }
 
-    public AccountType getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
-    }
-
     public String getImgUrl() {
         return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
     }
 
     public String getName() {
@@ -61,14 +51,6 @@ public abstract class Account {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
     }
 
     public List<Message> getMessageList() {
@@ -81,5 +63,13 @@ public abstract class Account {
 
     public void addMessage(Message message) {
         this.messageList.add(message);
+    }
+
+    public DateTime getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(DateTime birthDate) {
+        this.birthDate = birthDate;
     }
 }

@@ -14,8 +14,11 @@ public class SwipePresenter implements SwipeContract.Presenter,
         LoaderManager.LoaderCallbacks<List<Friend>> {
 
     private static final int GET_FRIENDS_LOADER_ID = 2;
+
     private DataSource mDataSource;
+
     private LoaderManager mLoaderManager;
+
     private SwipeContract.View mSwipeView;
 
     public SwipePresenter(DataSource dataSource, LoaderManager loaderManager,
