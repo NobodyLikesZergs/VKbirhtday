@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.example.maq.sdr.R;
 import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.presentation.MainApplication;
+import com.example.maq.sdr.presentation.swipe.SwipeActivity;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
@@ -23,7 +25,7 @@ import java.util.List;
 
 public class FriendsActivity extends AppCompatActivity implements FriendsContract.View{
 
-    private FriendsPresenter mFriendsPresenter;
+    private FriendsContract.Presenter mFriendsPresenter;
 
     private RecyclerView mRecyclerView;
 
@@ -81,8 +83,8 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
     @Override
     protected void onRestart() {
         Log.i(MainApplication.LOG_TAG, "Activity onRestart");
-        mFriendsPresenter.onActivityRestart();
         super.onRestart();
+        mFriendsPresenter.onActivityRestart();
     }
 
     @Override
@@ -96,5 +98,12 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         DataSource dataSource = ((MainApplication)getApplication()).getDataSource();
         mFriendsPresenter = new FriendsPresenter(getLoaderManager(), dataSource, this);
         mFriendsPresenter.getFriends();
+    }
+
+
+
+    public void onButtonClick(View view) {
+        Intent intent = new Intent(this, SwipeActivity.class);
+        startActivity(intent);
     }
 }

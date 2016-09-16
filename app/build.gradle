@@ -28,6 +28,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.google.guava:guava:19.0'
 
+    compile 'com.daprlabs.aaron:swipedeck:2.0.6'
+
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.vk:androidsdk:1.6.5'
 

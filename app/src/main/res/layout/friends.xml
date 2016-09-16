@@ -4,13 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.maq.sdr.presentation.friends.FriendsActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_weight="100">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/friends_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        />
+        android:layout_marginTop="20dp"
+        android:layout_weight="60"/>
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_weight="40"
+        android:text="button"
+        android:onClick="onButtonClick" />
 
 </LinearLayout>

@@ -20,6 +20,8 @@
         <activity android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity" android:theme="@style/VK.Transparent" />
 
+        <activity android:name=".presentation.swipe.SwipeActivity" />
+
         <receiver android:name=".domain.service.AlarmsReceiver" />
 
         <service android:name=".domain.service.MessageService" />

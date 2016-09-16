@@ -19,5 +19,9 @@ public interface FriendsContract {
 
         void getFriends();
 
+        void onActivityRestart();
+
+        void onActivityStop();
+
     }
 }
