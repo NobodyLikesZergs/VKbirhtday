@@ -56,14 +56,13 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 String name = c.getString(c.getColumnIndex(FriendEntry.NAME_COLUMN));
                 String birthDate = c.getString(c.getColumnIndex(FriendEntry.BIRTH_DATE_COLUMN));
                 String imgUrl = c.getString(c.getColumnIndex(FriendEntry.IMG_URL_COLUMN));
-                DateTime parsedBirthDate;
-                if (birthDate.equals("null")) {
-                    parsedBirthDate = null;
+                Friend friend;
+                if (birthDate == null) {
+                    friend = new Friend(id, name, null, imgUrl, getAccountsByFriendId(id));
                 } else {
-                    parsedBirthDate = DateTime.parse(birthDate);
+                    friend = new Friend(id, name, DateTime.parse(birthDate),
+                            imgUrl, getAccountsByFriendId(id));
                 }
-                Friend friend = new Friend(id, name, parsedBirthDate,
-                        imgUrl, getAccountsByFriendId(id));
                 friends.add(friend);
             }
         }
@@ -84,9 +83,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
         values.put(FriendEntry.ID_COLUMN, friend.getId());
         values.put(FriendEntry.IMG_URL_COLUMN, friend.getImgUrl());
         values.put(FriendEntry.NAME_COLUMN, friend.getName());
-        if (friend.getBirthDate() == null) {
-            values.put(FriendEntry.BIRTH_DATE_COLUMN, "null");
-        }else {
+        if (friend.getBirthDate() != null) {
             values.put(FriendEntry.BIRTH_DATE_COLUMN, friend.getBirthDate().toString());
         }
         mDb.insert(FriendEntry.TABLE_NAME, null, values);
@@ -124,14 +121,13 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 String name = c.getString(c.getColumnIndex(AccountEntry.NAME_COLUMN));
                 String birthDate = c.getString(c.getColumnIndex(AccountEntry.BIRTH_DATE_COLUMN));
                 String imgUrl = c.getString(c.getColumnIndex(AccountEntry.IMG_URL_COLUMN));
-                DateTime parsedBirthDate;
-                if (birthDate.equals("null")) {
-                    parsedBirthDate = null;
+                Account account;
+                if (birthDate == null) {
+                    account = new VkAccount(id, imgUrl, null, getMessagesByAccountId(id), name);
                 } else {
-                    parsedBirthDate = DateTime.parse(birthDate);
+                    account = new VkAccount(id, imgUrl, DateTime.parse(birthDate),
+                            getMessagesByAccountId(id), name);
                 }
-                Account account = new VkAccount(id, imgUrl, parsedBirthDate,
-                        getMessagesByAccountId(id), name);
                 accounts.add(account);
             }
         }
@@ -159,8 +155,6 @@ public class LocalDataSourceImpl implements LocalDataSource{
         values.put(AccountEntry.FRIEND_ID_COLUMN, friend.getId());
         if (account.getBirthDate() != null) {
             values.put(AccountEntry.BIRTH_DATE_COLUMN, account.getBirthDate().toString());
-        } else {
-            values.put(AccountEntry.BIRTH_DATE_COLUMN, "null");
         }
         mDb.insert(AccountEntry.TABLE_NAME, null, values);
         saveMessages(friend, account);
