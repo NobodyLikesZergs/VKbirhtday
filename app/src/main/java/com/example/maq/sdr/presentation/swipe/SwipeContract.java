@@ -22,5 +22,7 @@ public interface SwipeContract {
         void onActivityRestart();
 
         void onActivityStop();
+
+        void saveMessage();
     }
 }

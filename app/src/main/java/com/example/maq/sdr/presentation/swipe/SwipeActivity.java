@@ -25,6 +25,7 @@ public class SwipeActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.swipe_layout);
+        createPresenter();
         mSwipeDeck = (SwipeDeck) findViewById(R.id.swipe_deck);
         mAdapter = new SwipeDeckAdapter(new ArrayList<Friend>(), this);
         mSwipeDeck.setAdapter(mAdapter);
@@ -32,6 +33,7 @@ public class SwipeActivity extends AppCompatActivity implements
             @Override
             public void cardSwipedLeft(long positionInAdapter) {
                 Log.i("MainActivity", "card was swiped left");
+
             }
 
             @Override
@@ -39,7 +41,6 @@ public class SwipeActivity extends AppCompatActivity implements
                 Log.i("MainActivity", "card was swiped right");
             }
         });
-        createPresenter();
     }
 
     @Override

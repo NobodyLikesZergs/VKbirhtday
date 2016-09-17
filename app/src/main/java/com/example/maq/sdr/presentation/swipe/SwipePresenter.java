@@ -34,6 +34,11 @@ public class SwipePresenter implements SwipeContract.Presenter,
     }
 
     @Override
+    public void saveMessage() {
+
+    }
+
+    @Override
     public void onActivityRestart() {
 
     }

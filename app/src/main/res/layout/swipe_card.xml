@@ -6,10 +6,7 @@
     android:layout_height="match_parent"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="4dp"
-    card_view:cardUseCompatPadding="true"
-    android:layout_margin="8dp"
-    android:gravity="center_horizontal"
-    android:padding="25dp">
+    card_view:cardUseCompatPadding="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
@@ -21,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="75">
+            android:layout_weight="70">
             <ImageView
                 android:src="@mipmap/ic_launcher"
                 android:id="@+id/swipe_avatar"
@@ -34,12 +31,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="25"
-            android:gravity="center_horizontal">
+            android:layout_weight="30"
+            android:gravity="center_horizontal"
+            android:layout_marginLeft="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="firstname lastname"
                 android:id="@+id/swipe_name"
@@ -49,16 +48,20 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="25 years in 2 weeks"
                 android:layout_gravity="left" />
 
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/editText"
-                android:layout_gravity="center_horizontal"
-                android:background="#fafafa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/style"
                 android:elevation="8dp"
                 android:text="Congrats\nMy friend" />
         </LinearLayout>
