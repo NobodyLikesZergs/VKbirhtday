@@ -2,7 +2,9 @@ package com.example.maq.sdr.presentation.swipe;
 
 import android.content.Context;
 
+import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
+import com.example.maq.sdr.domain.entities.Message;
 
 import java.util.List;
 
@@ -23,6 +25,6 @@ public interface SwipeContract {
 
         void onActivityStop();
 
-        void saveMessage();
+        void saveMessage(Friend friend, Account account, Message message);
     }
 }

@@ -66,6 +66,11 @@ public class DataSourceImpl implements DataSource{
     }
 
     @Override
+    public void saveMessage(Friend friend, Account account, Message message) {
+        mLocalDataSource.saveMessage(friend, account, message);
+    }
+
+    @Override
     public void setVkToken(String vkToken) {
         mRemoteDataSource.setVkToken(vkToken);
     }

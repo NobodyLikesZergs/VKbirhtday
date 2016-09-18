@@ -201,7 +201,8 @@ public class LocalDataSourceImpl implements LocalDataSource{
         }
     }
 
-    private void saveMessage(Friend friend, Account account, Message message) {
+    @Override
+    public void saveMessage(Friend friend, Account account, Message message) {
         deleteMessage(message.getId());
         ContentValues values = new ContentValues();
         values.put(MessageEntry.ID_COLUMN, message.getId());

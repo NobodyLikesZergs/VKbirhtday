@@ -5,11 +5,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.daprlabs.aaron.swipedeck.SwipeDeck;
 import com.example.maq.sdr.R;
 import com.example.maq.sdr.data.DataSource;
+import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
+import com.example.maq.sdr.domain.entities.Message;
 import com.example.maq.sdr.presentation.MainApplication;
 
 import java.util.ArrayList;
@@ -33,12 +36,27 @@ public class SwipeActivity extends AppCompatActivity implements
             @Override
             public void cardSwipedLeft(long positionInAdapter) {
                 Log.i("MainActivity", "card was swiped left");
-
+                Friend friend = (Friend) mAdapter.getItem((int) positionInAdapter);
+                if (friend.getBirthDate() == null)
+                    return;
+                for (Account account: friend.getAccountList()) {
+                    mPresenter.saveMessage(friend, account,
+                            new Message(account.getId(), null, friend.getBirthDate()));
+                }
             }
 
             @Override
             public void cardSwipedRight(long positionInAdapter) {
                 Log.i("MainActivity", "card was swiped right");
+                Friend friend = (Friend) mAdapter.getItem((int) positionInAdapter);
+                if (friend.getBirthDate() == null)
+                    return;
+                EditText editText = (EditText) findViewById(R.id.message_text);
+                for (Account account: friend.getAccountList()) {
+                    mPresenter.saveMessage(friend, account,
+                            new Message(account.getId(), editText.getText().toString(),
+                                    friend.getBirthDate()));
+                }
             }
         });
     }
