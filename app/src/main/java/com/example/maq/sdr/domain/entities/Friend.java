@@ -76,4 +76,13 @@ public class Friend {
     public void setBirthDate(DateTime birthDate) {
         this.birthDate = birthDate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Friend)) {
+            return false;
+        }
+        Friend f = (Friend)o;
+        return this.getId().equals(((Friend) o).getId());
+    }
 }
