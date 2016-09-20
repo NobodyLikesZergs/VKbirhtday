@@ -18,15 +18,17 @@
         android:layout_weight="90"/>
 
     <Button
+        android:id="@+id/swipe_left_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/abc_btn_radio_to_on_mtrl_015" />
+        android:text="swipe left"/>
 
     <Button
+        android:id="@+id/swipe_rigth_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:background="@mipmap/ic_launcher" />
+        android:text="swipe right" />
 
 </com.daprlabs.aaron.swipedeck.layouts.SwipeFrameLayout>

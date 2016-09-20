@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.daprlabs.aaron.swipedeck.SwipeDeck;
@@ -57,6 +59,20 @@ public class SwipeActivity extends AppCompatActivity implements
                             new Message(account.getId(), editText.getText().toString(),
                                     friend.getBirthDate()));
                 }
+            }
+        });
+        Button swipeLeftButton = (Button) findViewById(R.id.swipe_left_button);
+        swipeLeftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {   
+                mSwipeDeck.swipeTopCardLeft(500);
+            }
+        });
+        Button swipeRigthButton = (Button) findViewById(R.id.swipe_rigth_button);
+        swipeRigthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSwipeDeck.swipeTopCardRight(200);
             }
         });
     }
