@@ -44,24 +44,15 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
     }
 
     @Override
-    public List<Friend> getFriends() {
+    public List<Friend> getFriends() throws IOException {
         Call<AccountResponseBean> call = mService.getVkAccountsList(mVkToken);
         Response<AccountResponseBean> response = null;
-        try {
-            response = call.execute();
-        } catch (IOException e) {
-            return null;
-        }
+        response = call.execute();
         List<Friend> result = new ArrayList<>();
         for (VkAccountBean accountBean: response.body().getVkAccountBeanList()) {
             result.add(new Friend(accountBean.createVkAccountObject()));
         }
         return result;
-    }
-
-    @Override
-    public Friend getFriend(int id) {
-        return null;
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.entities.Message;
+import com.google.common.eventbus.EventBus;
 
 public class SwipePresenter implements SwipeContract.Presenter {
 
@@ -20,17 +21,18 @@ public class SwipePresenter implements SwipeContract.Presenter {
 
     private GetUntunedFriendsCallback mGetFriendsCallback;
 
+    private EventBus mEventBus;
+
+    private SwipeEventListener mEventListener;
+
     public SwipePresenter(DataSource dataSource, LoaderManager loaderManager,
-                          SwipeContract.View view) {
+                          SwipeContract.View view, EventBus eventBus) {
         mDataSource = dataSource;
         mLoaderManager = loaderManager;
         mSwipeView = view;
         mGetFriendsCallback = new GetUntunedFriendsCallback(mSwipeView, dataSource);
-    }
-
-    @Override
-    public void onActivityStop() {
-
+        mEventBus = eventBus;
+        mEventListener = new SwipeEventListener(this);
     }
 
     @Override
@@ -44,9 +46,12 @@ public class SwipePresenter implements SwipeContract.Presenter {
         }.execute();
     }
 
-    @Override
     public void onActivityRestart() {
+        mEventBus.register(mEventListener);
+    }
 
+    public void onActivityStop() {
+        mEventBus.unregister(mEventListener);
     }
 
     @Override

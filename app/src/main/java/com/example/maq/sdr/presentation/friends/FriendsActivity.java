@@ -8,12 +8,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.maq.sdr.R;
 import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.presentation.MainApplication;
 import com.example.maq.sdr.presentation.swipe.SwipeActivity;
+import com.google.common.eventbus.EventBus;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
@@ -25,7 +28,7 @@ import java.util.List;
 
 public class FriendsActivity extends AppCompatActivity implements FriendsContract.View{
 
-    private FriendsContract.Presenter mFriendsPresenter;
+    private FriendsContract.Presenter mPresenter;
 
     private RecyclerView mRecyclerView;
 
@@ -45,16 +48,37 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         if (VKAccessToken.currentToken() == null) {
             VKSdk.login(this, VKScope.FRIENDS, VKScope.MESSAGES);
         } else {
-            ((MainApplication)getApplication())
-                    .setVkToken(VKAccessToken.currentToken().accessToken);
             createPresenter(VKAccessToken.currentToken().accessToken);
-            ((MainApplication)getApplication()).startService();
         }
     }
 
     @Override
     public void showFriends(List<Friend> friends) {
         mFriendsAdapter.replaceData(friends);
+    }
+
+    @Override
+    public void showProgressBar() {
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showConnectionErrorIcon() {
+        ImageView imageView = (ImageView) findViewById(R.id.connection_error_icon);
+        imageView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideConnectionErrorIcon() {
+        ImageView imageView = (ImageView) findViewById(R.id.connection_error_icon);
+        imageView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -68,7 +92,6 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
             @Override
             public void onResult(VKAccessToken res) {
                 createPresenter(res.accessToken);
-                ((MainApplication)getApplication()).startService();
                 Log.i("Vk onResult token:", res.accessToken);
             }
             @Override
@@ -84,20 +107,26 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
     protected void onRestart() {
         Log.i(MainApplication.LOG_TAG, "Activity onRestart");
         super.onRestart();
-        mFriendsPresenter.onActivityRestart();
+        mPresenter.onActivityRestart();
     }
 
     @Override
     protected void onStop() {
         Log.i(MainApplication.LOG_TAG, "Activity onStop");
-        mFriendsPresenter.onActivityStop();
+        mPresenter.onActivityStop();
         super.onStop();
     }
 
     private void createPresenter(String vkToken) {
-        DataSource dataSource = ((MainApplication)getApplication()).getDataSource();
-        mFriendsPresenter = new FriendsPresenter(getLoaderManager(), dataSource, this);
-        mFriendsPresenter.getFriends();
+        MainApplication application = (MainApplication) getApplication();
+        application.setVkToken(vkToken);
+        application.startService();
+        DataSource dataSource = application.getDataSource();
+        EventBus eventBus = application.getEventBus();
+        mPresenter = new FriendsPresenter(getLoaderManager(), dataSource, this, eventBus);
+        mPresenter.onActivityRestart();
+        mPresenter.getFriends();
+        showProgressBar();
     }
 
 

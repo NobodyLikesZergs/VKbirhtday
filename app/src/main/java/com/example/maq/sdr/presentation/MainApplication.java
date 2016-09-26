@@ -23,7 +23,7 @@ public class MainApplication extends Application {
 
     public static final String LOG_TAG = "log tag";
 
-    private static EventBus eventBus;
+    private EventBus mEventBus;
 
     private DataSource mDataSource;
 
@@ -46,7 +46,8 @@ public class MainApplication extends Application {
         VKSdk.initialize(this);
         LocalDataSource localDataSource = LocalDataSourceImpl.getInstance(this);
         RemoteDataSource remoteDataSource = RemoteDataSourceImpl.getInstance(vkToken);
-        mDataSource = DataSourceImpl.getInstance(localDataSource, remoteDataSource);
+        mEventBus = getEventBus();
+        mDataSource = DataSourceImpl.getInstance(localDataSource, remoteDataSource, mEventBus);
     }
 
     public void setVkToken(String vkToken) {
@@ -54,11 +55,11 @@ public class MainApplication extends Application {
         mDataSource.setVkToken(vkToken);
     }
 
-    public static EventBus getEventBus() {
-        if (eventBus == null) {
-            eventBus = new EventBus();
+    public EventBus getEventBus() {
+        if (mEventBus == null) {
+            mEventBus = new EventBus();
         }
-        return eventBus;
+        return mEventBus;
     }
 
     public DataSource getDataSource() {

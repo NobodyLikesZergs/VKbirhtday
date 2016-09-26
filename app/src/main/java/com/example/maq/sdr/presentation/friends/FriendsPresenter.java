@@ -9,6 +9,7 @@ import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.loaders.GetFriendsLoader;
 import com.example.maq.sdr.presentation.MainApplication;
+import com.google.common.eventbus.EventBus;
 
 import java.util.List;
 
@@ -23,15 +24,17 @@ public class FriendsPresenter implements FriendsContract.Presenter,
 
     private FriendsContract.View mFriendsView;
 
-    private FriendsUpdateEventListener mEventListener;
+    private FriendsEventListener mEventListener;
+
+    private EventBus mEventBus;
 
     public FriendsPresenter(LoaderManager loaderManager, DataSource dataSource,
-                            FriendsContract.View view) {
+                            FriendsContract.View view, EventBus eventBus) {
         mLoaderManager = loaderManager;
         mDataSource = dataSource;
         mFriendsView = view;
-        mEventListener = new FriendsUpdateEventListener(this);
-        MainApplication.getEventBus().register(mEventListener);
+        mEventListener = new FriendsEventListener(this, view);
+        mEventBus = eventBus;
     }
 
     @Override
@@ -45,11 +48,11 @@ public class FriendsPresenter implements FriendsContract.Presenter,
     }
 
     public void onActivityRestart() {
-        MainApplication.getEventBus().register(mEventListener);
+        mEventBus.register(mEventListener);
     }
 
     public void onActivityStop() {
-        MainApplication.getEventBus().unregister(mEventListener);
+        mEventBus.unregister(mEventListener);
     }
 
     @Override

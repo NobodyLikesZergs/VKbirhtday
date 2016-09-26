@@ -12,6 +12,14 @@ public interface FriendsContract {
 
         void showFriends(List<Friend> friends);
 
+        void showProgressBar();
+
+        void hideProgressBar();
+
+        void showConnectionErrorIcon();
+
+        void hideConnectionErrorIcon();
+
         Context getCurrentContext();
     }
 

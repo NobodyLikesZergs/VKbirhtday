@@ -9,10 +9,12 @@ import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.entities.Message;
 import com.example.maq.sdr.presentation.MainApplication;
-import com.example.maq.sdr.presentation.friends.FriendsUpdateEvent;
+import com.example.maq.sdr.presentation.events.FriendsUpdateEvent;
+import com.google.common.eventbus.EventBus;
 
 import org.joda.time.DateTime;
 
+import java.io.IOException;
 import java.util.List;
 
 public class DataSourceImpl implements DataSource{
@@ -23,18 +25,23 @@ public class DataSourceImpl implements DataSource{
 
     private static DataSourceImpl INSTANCE;
 
+    private EventBus mEventBus;
+
     private DateTime mLastFriendsUpdate;
 
-    private DataSourceImpl(LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
+    private DataSourceImpl(LocalDataSource localDataSource, RemoteDataSource remoteDataSource,
+                           EventBus eventBus) {
         mLocalDataSource = localDataSource;
         mRemoteDataSource = remoteDataSource;
         mLastFriendsUpdate = new DateTime().minusHours(1);
+        mEventBus = eventBus;
     }
 
     public static DataSourceImpl getInstance(LocalDataSource localDataSource,
-                                             RemoteDataSource remoteDataSource) {
+                                             RemoteDataSource remoteDataSource,
+                                             EventBus eventBus) {
         if (INSTANCE == null)
-            INSTANCE = new DataSourceImpl(localDataSource, remoteDataSource);
+            INSTANCE = new DataSourceImpl(localDataSource, remoteDataSource, eventBus);
         return INSTANCE;
     }
 
@@ -43,11 +50,6 @@ public class DataSourceImpl implements DataSource{
         List<Friend> result = mLocalDataSource.getFriends();
         refreshFriends();
         return result;
-    }
-
-    @Override
-    public Friend getFriend(int id) {
-        return null;
     }
 
     @Override
@@ -80,21 +82,32 @@ public class DataSourceImpl implements DataSource{
         if (currentTime.minusMinutes(1).getMillis() > mLastFriendsUpdate.getMillis()) {
             Log.i(MainApplication.LOG_TAG, "refreshFriends");
             new RefreshFriendsTask().execute();
-            mLastFriendsUpdate = currentTime;
+        } else {
+            mEventBus.post(new FriendsUpdateEvent(FriendsUpdateEvent.Result.NOT_NEED));
         }
     }
 
     class RefreshFriendsTask extends AsyncTask<Void, Void, Void> {
+
+        FriendsUpdateEvent result;
+
         @Override
         protected Void doInBackground(Void... params) {
-            mLocalDataSource.saveFriends(mRemoteDataSource.getFriends());
+            DateTime currentTime = new DateTime();
+            try {
+                mLocalDataSource.saveFriends(mRemoteDataSource.getFriends());
+                result = new FriendsUpdateEvent(FriendsUpdateEvent.Result.OK);
+                mLastFriendsUpdate = currentTime;
+            } catch (IOException e) {
+                result = new FriendsUpdateEvent(FriendsUpdateEvent.Result.CONNECTION_ERROR);
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            MainApplication.getEventBus().post(new FriendsUpdateEvent(true));
+            mEventBus.post(result);
         }
     }
 }

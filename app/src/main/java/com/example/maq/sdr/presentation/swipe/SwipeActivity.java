@@ -16,6 +16,7 @@ import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.entities.Message;
 import com.example.maq.sdr.presentation.MainApplication;
+import com.google.common.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,9 +101,12 @@ public class SwipeActivity extends AppCompatActivity implements
     }
 
     private void createPresenter() {
-        DataSource dataSource = ((MainApplication)getApplication()).getDataSource();
+        MainApplication application = (MainApplication) getApplication();
+        DataSource dataSource = application.getDataSource();
         LoaderManager loaderManager = getLoaderManager();
-        mPresenter = new SwipePresenter(dataSource, loaderManager, this);
+        EventBus eventBus = application.getEventBus();
+        mPresenter = new SwipePresenter(dataSource, loaderManager, this, eventBus);
+        mPresenter.onActivityRestart();
         mPresenter.getFriends();
     }
 }
