@@ -33,6 +33,7 @@ public class MainApplication extends Application {
         @Override
         public void onVKAccessTokenChanged(VKAccessToken oldToken, VKAccessToken newToken) {
             if (newToken == null) {
+                Log.i(LOG_TAG, "TokenTracker: new Token is null");
             }
             updateVkToken();
             Log.i(MainApplication.LOG_TAG, "onVkAccessTokenChanged");

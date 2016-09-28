@@ -49,6 +49,7 @@ public class MessageService extends IntentService {
         DateTime currentDate = new DateTime();
         DateTime messageDate = message.getDate();
         DateTime friendDate = friend.getBirthDate();
+//        TODO: check current day
 //        if ((currentDate.getMonthOfYear() != messageDate.getMonthOfYear()) ||
 //                currentDate.getDayOfMonth() != messageDate.getDayOfMonth())
 //            return false;

@@ -7,7 +7,9 @@ import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.entities.Message;
+import com.example.maq.sdr.presentation.events.FriendsUpdateEvent;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 public class SwipePresenter implements SwipeContract.Presenter {
 
@@ -23,8 +25,6 @@ public class SwipePresenter implements SwipeContract.Presenter {
 
     private EventBus mEventBus;
 
-    private SwipeEventListener mEventListener;
-
     public SwipePresenter(DataSource dataSource, LoaderManager loaderManager,
                           SwipeContract.View view, EventBus eventBus) {
         mDataSource = dataSource;
@@ -32,7 +32,6 @@ public class SwipePresenter implements SwipeContract.Presenter {
         mSwipeView = view;
         mGetFriendsCallback = new GetUntunedFriendsCallback(mSwipeView, dataSource);
         mEventBus = eventBus;
-        mEventListener = new SwipeEventListener(this);
     }
 
     @Override
@@ -47,11 +46,11 @@ public class SwipePresenter implements SwipeContract.Presenter {
     }
 
     public void onActivityRestart() {
-        mEventBus.register(mEventListener);
+        mEventBus.register(this);
     }
 
     public void onActivityStop() {
-        mEventBus.unregister(mEventListener);
+        mEventBus.unregister(this);
     }
 
     @Override
@@ -59,5 +58,13 @@ public class SwipePresenter implements SwipeContract.Presenter {
         mLoaderManager.restartLoader(GET_FRIENDS_LOADER_ID, null, mGetFriendsCallback).forceLoad();
     }
 
+    @Subscribe
+    public void task(FriendsUpdateEvent e) {
+        if (e.getResult() == FriendsUpdateEvent.Result.OK) {
+            getFriends();
+        } else if (e.getResult() == FriendsUpdateEvent.Result.NOT_NEED) {
+        } else if (e.getResult() == FriendsUpdateEvent.Result.CONNECTION_ERROR) {
+        };
+    }
 
 }

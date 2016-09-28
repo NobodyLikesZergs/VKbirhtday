@@ -9,7 +9,9 @@ import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.loaders.GetFriendsLoader;
 import com.example.maq.sdr.presentation.MainApplication;
+import com.example.maq.sdr.presentation.events.FriendsUpdateEvent;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -24,8 +26,6 @@ public class FriendsPresenter implements FriendsContract.Presenter,
 
     private FriendsContract.View mFriendsView;
 
-    private FriendsEventListener mEventListener;
-
     private EventBus mEventBus;
 
     public FriendsPresenter(LoaderManager loaderManager, DataSource dataSource,
@@ -33,7 +33,6 @@ public class FriendsPresenter implements FriendsContract.Presenter,
         mLoaderManager = loaderManager;
         mDataSource = dataSource;
         mFriendsView = view;
-        mEventListener = new FriendsEventListener(this, view);
         mEventBus = eventBus;
     }
 
@@ -49,11 +48,11 @@ public class FriendsPresenter implements FriendsContract.Presenter,
     }
 
     public void onActivityRestart() {
-        mEventBus.register(mEventListener);
+        mEventBus.register(this);
     }
 
     public void onActivityStop() {
-        mEventBus.unregister(mEventListener);
+        mEventBus.unregister(this);
     }
 
     @Override
@@ -70,5 +69,17 @@ public class FriendsPresenter implements FriendsContract.Presenter,
     @Override
     public void onLoaderReset(Loader<List<Friend>> loader) {
 
+    }
+
+    @Subscribe
+    public void task(FriendsUpdateEvent e) {
+        if (e.getResult() == FriendsUpdateEvent.Result.OK) {
+            getFriends();
+            mFriendsView.hideConnectionErrorIcon();
+        } else if (e.getResult() == FriendsUpdateEvent.Result.CONNECTION_ERROR) {
+            mFriendsView.showConnectionErrorIcon();
+        }
+        mFriendsView.hideProgressBar();
+        Log.i(MainApplication.LOG_TAG, "FriendsUpdateEvent");
     }
 }
