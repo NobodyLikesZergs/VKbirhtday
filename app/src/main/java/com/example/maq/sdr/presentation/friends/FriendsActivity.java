@@ -58,26 +58,46 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
 
     @Override
     public void showProgressBar() {
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.VISIBLE);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.post(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void hideProgressBar() {
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.INVISIBLE);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.post(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
     public void showConnectionErrorIcon() {
-        ImageView imageView = (ImageView) findViewById(R.id.connection_error_icon);
-        imageView.setVisibility(View.VISIBLE);
+        final ImageView imageView = (ImageView) findViewById(R.id.connection_error_icon);
+        imageView.post(new Runnable() {
+            @Override
+            public void run() {
+                imageView.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void hideConnectionErrorIcon() {
-        ImageView imageView = (ImageView) findViewById(R.id.connection_error_icon);
-        imageView.setVisibility(View.INVISIBLE);
+        final ImageView imageView = (ImageView) findViewById(R.id.connection_error_icon);
+        imageView.post(new Runnable() {
+            @Override
+            public void run() {
+                imageView.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
