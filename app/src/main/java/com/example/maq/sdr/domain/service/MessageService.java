@@ -35,6 +35,7 @@ public class MessageService extends IntentService {
             for (Account account: friend.getAccountList()) {
                 for (Message message: account.getMessageList()) {
                     if (verifyMessage(friend, account, message)) {
+                        Log.i(MainApplication.LOG_TAG, "MessageService: sendMessage");
                         dataSource.sendMessage(account, message);
                     }
                 }
@@ -48,9 +49,9 @@ public class MessageService extends IntentService {
         DateTime currentDate = new DateTime();
         DateTime messageDate = message.getDate();
         DateTime friendDate = friend.getBirthDate();
-        if ((currentDate.getMonthOfYear() != messageDate.getMonthOfYear()) ||
-                currentDate.getDayOfMonth() != messageDate.getDayOfMonth())
-            return false;
+//        if ((currentDate.getMonthOfYear() != messageDate.getMonthOfYear()) ||
+//                currentDate.getDayOfMonth() != messageDate.getDayOfMonth())
+//            return false;
         if ((friendDate.getMonthOfYear() != messageDate.getMonthOfYear()) ||
                 friendDate.getDayOfMonth() != messageDate.getDayOfMonth())
             return false;

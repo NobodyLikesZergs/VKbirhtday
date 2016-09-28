@@ -21,7 +21,7 @@ import com.vk.sdk.VKSdk;
 
 public class MainApplication extends Application {
 
-    public static final String LOG_TAG = "log tag";
+    public static final String LOG_TAG = "sdrr";
 
     private EventBus mEventBus;
 
@@ -34,8 +34,7 @@ public class MainApplication extends Application {
         public void onVKAccessTokenChanged(VKAccessToken oldToken, VKAccessToken newToken) {
             if (newToken == null) {
             }
-            setVkToken(newToken.accessToken);
-            startService();
+            updateVkToken();
             Log.i(MainApplication.LOG_TAG, "onVkAccessTokenChanged");
         }
     };
@@ -48,11 +47,15 @@ public class MainApplication extends Application {
         RemoteDataSource remoteDataSource = RemoteDataSourceImpl.getInstance(vkToken);
         mEventBus = getEventBus();
         mDataSource = DataSourceImpl.getInstance(localDataSource, remoteDataSource, mEventBus);
+        updateVkToken();
+        startService();
     }
 
-    public void setVkToken(String vkToken) {
-        this.vkToken = vkToken;
-        mDataSource.setVkToken(vkToken);
+    public void updateVkToken() {
+        if (VKAccessToken.currentToken() != null) {
+            vkToken = VKAccessToken.currentToken().accessToken;
+            mDataSource.setVkToken(vkToken);
+        }
     }
 
     public EventBus getEventBus() {

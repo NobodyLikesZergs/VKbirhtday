@@ -41,6 +41,7 @@ public class FriendsPresenter implements FriendsContract.Presenter,
     public void getFriends() {
         mLoaderManager.restartLoader(GET_FRIENDS_LOADER_ID, null, this)
                 .forceLoad();
+        mFriendsView.showProgressBar();
     }
 
     public void showFriends(List<Friend> friends) {

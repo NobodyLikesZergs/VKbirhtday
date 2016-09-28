@@ -61,7 +61,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="5157e5717e9467c4e372f479fccbff0d770e008c">
+        sha1="5b7876ea0a935bf5a719d0d024bd9f508b917721">
         <dex dex="/home/maq/Android/projects/VKbirhtday/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_77e7f55a724738630ff7d3784d8937844b21c5f7/classes.dex" />
     </item>
     <item
@@ -133,7 +133,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="48a53a4eb09f35d86da3d52ad26f927c4e1fb117">
+        sha1="30f29a884a5ee986c2b4eb0c49455e8c015b128a">
         <dex dex="/home/maq/Android/projects/VKbirhtday/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_ca7698653383d3d1e153ff606d2315b17a269365/classes.dex" />
     </item>
     <item

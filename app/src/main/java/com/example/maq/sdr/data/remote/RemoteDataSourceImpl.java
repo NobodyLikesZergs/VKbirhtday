@@ -49,6 +49,10 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
         Response<AccountResponseBean> response = null;
         response = call.execute();
         List<Friend> result = new ArrayList<>();
+        //TODO implement error handling
+        if(response.body().getVkAccountBeanList() == null)
+            throw new IOException();
+        //TODO here
         for (VkAccountBean accountBean: response.body().getVkAccountBeanList()) {
             result.add(new Friend(accountBean.createVkAccountObject()));
         }

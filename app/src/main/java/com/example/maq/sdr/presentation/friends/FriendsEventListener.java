@@ -22,8 +22,6 @@ public class FriendsEventListener {
         if (e.getResult() == FriendsUpdateEvent.Result.OK) {
             mPresenter.getFriends();
             mView.hideConnectionErrorIcon();
-        } else if (e.getResult() == FriendsUpdateEvent.Result.NOT_NEED) {
-            mView.hideProgressBar();
         } else if (e.getResult() == FriendsUpdateEvent.Result.CONNECTION_ERROR) {
             mView.showConnectionErrorIcon();
         }

@@ -47,9 +47,8 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
 
         if (VKAccessToken.currentToken() == null) {
             VKSdk.login(this, VKScope.FRIENDS, VKScope.MESSAGES);
-        } else {
-            createPresenter(VKAccessToken.currentToken().accessToken);
         }
+        createPresenter();
     }
 
     @Override
@@ -91,7 +90,8 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
             @Override
             public void onResult(VKAccessToken res) {
-                createPresenter(res.accessToken);
+                ((MainApplication) getApplication()).updateVkToken();
+                mPresenter.getFriends();
                 Log.i("Vk onResult token:", res.accessToken);
             }
             @Override
@@ -117,16 +117,13 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         super.onStop();
     }
 
-    private void createPresenter(String vkToken) {
+    private void createPresenter() {
         MainApplication application = (MainApplication) getApplication();
-        application.setVkToken(vkToken);
-        application.startService();
         DataSource dataSource = application.getDataSource();
         EventBus eventBus = application.getEventBus();
         mPresenter = new FriendsPresenter(getLoaderManager(), dataSource, this, eventBus);
         mPresenter.onActivityRestart();
         mPresenter.getFriends();
-        showProgressBar();
     }
 
 
