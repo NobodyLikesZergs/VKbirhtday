@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.maq.sdr.data.AuthorizationManager;
 import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.data.DataSourceImpl;
 import com.example.maq.sdr.data.local.LocalDataSource;
@@ -27,7 +28,7 @@ public class MainApplication extends Application {
 
     private DataSource mDataSource;
 
-    private String vkToken;
+    private AuthorizationManager authManager;
 
     VKAccessTokenTracker vkAccessTokenTracker = new VKAccessTokenTracker() {
         @Override
@@ -44,8 +45,9 @@ public class MainApplication extends Application {
         super.onCreate();
         vkAccessTokenTracker.startTracking();
         VKSdk.initialize(this);
+        authManager = AuthorizationManager.getInstance();
         LocalDataSource localDataSource = LocalDataSourceImpl.getInstance(this);
-        RemoteDataSource remoteDataSource = RemoteDataSourceImpl.getInstance(vkToken);
+        RemoteDataSource remoteDataSource = RemoteDataSourceImpl.getInstance();
         mEventBus = getEventBus();
         mDataSource = DataSourceImpl.getInstance(localDataSource, remoteDataSource, mEventBus);
         updateVkToken();
@@ -54,8 +56,7 @@ public class MainApplication extends Application {
 
     public void updateVkToken() {
         if (VKAccessToken.currentToken() != null) {
-            vkToken = VKAccessToken.currentToken().accessToken;
-            mDataSource.setVkToken(vkToken);
+            authManager.setVkToken(VKAccessToken.currentToken().accessToken);
         }
     }
 
@@ -78,7 +79,7 @@ public class MainApplication extends Application {
 //        if (pendingIntent == null) {
 //            pendingIntent = PendingIntent.getBroadcast(this, 0, intent,
 //                    PendingIntent.FLAG_UPDATE_CURRENT);
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 30000, pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 70000, pendingIntent);
         Log.i(MainApplication.LOG_TAG, "mainApp: service started");
 //        }
     }

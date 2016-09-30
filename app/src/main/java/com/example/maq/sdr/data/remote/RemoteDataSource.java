@@ -13,5 +13,4 @@ public interface RemoteDataSource {
 
     void sendMessage(Account account, Message message);
 
-    void setVkToken(String vkToken);
 }

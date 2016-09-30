@@ -2,6 +2,7 @@ package com.example.maq.sdr.data.remote;
 
 import android.util.Log;
 
+import com.example.maq.sdr.data.AuthorizationManager;
 import com.example.maq.sdr.data.remote.beans.AccountResponseBean;
 import com.example.maq.sdr.data.remote.beans.ErrorBean;
 import com.example.maq.sdr.data.remote.beans.SendMessageResponseBean;
@@ -20,13 +21,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RemoteDataSourceImpl implements RemoteDataSource{
-
-    private String mVkToken;
+public class RemoteDataSourceImpl implements RemoteDataSource {
 
     private VkApiRetrofit mService;
 
     private final String mBaseUrl = "https://api.vk.com/method/";
+
+    private AuthorizationManager authManager;
 
     private static RemoteDataSourceImpl INSTANCE;
 
@@ -35,21 +36,20 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
                 .baseUrl(mBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(VkApiRetrofit.class);
+        authManager = AuthorizationManager.getInstance();
     }
 
-    public static RemoteDataSourceImpl getInstance(String vkToken) {
+    public static RemoteDataSourceImpl getInstance() {
         if (INSTANCE == null)
             INSTANCE = new RemoteDataSourceImpl();
-        INSTANCE.setVkToken(vkToken);
         return INSTANCE;
     }
 
     @Override
     public List<Friend> getFriends() throws IOException, WrongTokenException {
-        Call<AccountResponseBean> call = mService.getVkAccountsList(mVkToken);
+        Call<AccountResponseBean> call = mService.getVkAccountsList(authManager.getVkToken());
         Response<AccountResponseBean> response = call.execute();
         List<Friend> result = new ArrayList<>();
-        Log.i(MainApplication.LOG_TAG, response.message());
         if(response.body().getErrorBean() != null) {
             parseError(response.body().getErrorBean());
         }
@@ -63,7 +63,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
     public void sendMessage(Account account, Message message) {
 //        TODO: remove mock logic
         Call<SendMessageResponseBean> call = mService.sendMessage("42341262", message.getText(),
-                mVkToken);
+                authManager.getVkToken());
 //        Call<SendMessageResponseBean> call = mService.sendMessage(account.getId(),
 //                message.getText(), mVkToken);
         Response<SendMessageResponseBean> response = null;
@@ -73,11 +73,6 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
             return;
         }
         Log.i(MainApplication.LOG_TAG, "sendMessage response: " + response.raw().toString());
-    }
-
-    @Override
-    public void setVkToken(String vkToken) {
-        mVkToken = vkToken;
     }
 
     private void parseError(ErrorBean errorBean) throws IOException, WrongTokenException {

@@ -58,10 +58,4 @@ public class MessageService extends IntentService {
             return false;
         return true;
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i(MainApplication.LOG_TAG, "MessageService onDestroy");
-    }
 }
