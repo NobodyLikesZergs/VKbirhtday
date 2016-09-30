@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.maq.sdr.data.local.LocalDataSource;
 import com.example.maq.sdr.data.remote.RemoteDataSource;
+import com.example.maq.sdr.data.remote.WrongTokenException;
 import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.domain.entities.Message;
@@ -98,6 +99,8 @@ public class DataSourceImpl implements DataSource{
                 mLocalDataSource.saveFriends(mRemoteDataSource.getFriends());
                 result = new FriendsUpdateEvent(FriendsUpdateEvent.Result.OK);
                 mLastFriendsUpdate = currentTime;
+            } catch (WrongTokenException e) {
+                result = new FriendsUpdateEvent(FriendsUpdateEvent.Result.WRONG_TOKEN);
             } catch (IOException e) {
                 result = new FriendsUpdateEvent(FriendsUpdateEvent.Result.CONNECTION_ERROR);
             }

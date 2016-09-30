@@ -3,6 +3,7 @@ package com.example.maq.sdr.data.remote;
 import android.util.Log;
 
 import com.example.maq.sdr.data.remote.beans.AccountResponseBean;
+import com.example.maq.sdr.data.remote.beans.ErrorBean;
 import com.example.maq.sdr.data.remote.beans.SendMessageResponseBean;
 import com.example.maq.sdr.data.remote.beans.VkAccountBean;
 import com.example.maq.sdr.domain.entities.Account;
@@ -44,15 +45,14 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
     }
 
     @Override
-    public List<Friend> getFriends() throws IOException {
+    public List<Friend> getFriends() throws IOException, WrongTokenException {
         Call<AccountResponseBean> call = mService.getVkAccountsList(mVkToken);
-        Response<AccountResponseBean> response = null;
-        response = call.execute();
+        Response<AccountResponseBean> response = call.execute();
         List<Friend> result = new ArrayList<>();
-        //TODO implement error handling
-        if(response.body().getVkAccountBeanList() == null)
-            throw new IOException();
-        //TODO here
+        Log.i(MainApplication.LOG_TAG, response.message());
+        if(response.body().getErrorBean() != null) {
+            parseError(response.body().getErrorBean());
+        }
         for (VkAccountBean accountBean: response.body().getVkAccountBeanList()) {
             result.add(new Friend(accountBean.createVkAccountObject()));
         }
@@ -78,5 +78,13 @@ public class RemoteDataSourceImpl implements RemoteDataSource{
     @Override
     public void setVkToken(String vkToken) {
         mVkToken = vkToken;
+    }
+
+    private void parseError(ErrorBean errorBean) throws IOException, WrongTokenException {
+        if (errorBean.getErrorCode() == 5) {
+            throw new WrongTokenException();
+        } else {
+            throw new IOException();
+        }
     }
 }

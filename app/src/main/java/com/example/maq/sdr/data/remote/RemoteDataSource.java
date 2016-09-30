@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface RemoteDataSource {
 
-    List<Friend> getFriends() throws IOException;
+    List<Friend> getFriends() throws IOException, WrongTokenException;
 
     void sendMessage(Account account, Message message);
 

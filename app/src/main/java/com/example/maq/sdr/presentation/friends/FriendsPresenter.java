@@ -78,6 +78,8 @@ public class FriendsPresenter implements FriendsContract.Presenter,
             mFriendsView.hideConnectionErrorIcon();
         } else if (e.getResult() == FriendsUpdateEvent.Result.CONNECTION_ERROR) {
             mFriendsView.showConnectionErrorIcon();
+        } else if (e.getResult() == FriendsUpdateEvent.Result.WRONG_TOKEN) {
+            Log.i(MainApplication.LOG_TAG, "FriendsPresenter: WRONG_TOKEN");
         }
         mFriendsView.hideProgressBar();
         Log.i(MainApplication.LOG_TAG, "FriendsUpdateEvent");

@@ -16,6 +16,7 @@ public class FriendsUpdateEvent {
     public enum Result {
         OK,
         NOT_NEED,
-        CONNECTION_ERROR
+        CONNECTION_ERROR,
+        WRONG_TOKEN,
     }
 }

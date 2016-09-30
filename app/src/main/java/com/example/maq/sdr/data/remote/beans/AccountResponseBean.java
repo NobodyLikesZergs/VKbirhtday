@@ -11,6 +11,14 @@ public class AccountResponseBean {
     @Expose
     private List<VkAccountBean> VkAccountBeanList;
 
+    @SerializedName("error")
+    @Expose
+    private ErrorBean errorBean;
+
+    public ErrorBean getErrorBean() {
+        return errorBean;
+    }
+
     public List<VkAccountBean> getVkAccountBeanList() {
         return VkAccountBeanList;
     }
