@@ -46,11 +46,11 @@ public class MainApplication extends Application {
         vkAccessTokenTracker.startTracking();
         VKSdk.initialize(this);
         authManager = AuthorizationManager.getInstance();
+        updateVkToken();
         LocalDataSource localDataSource = LocalDataSourceImpl.getInstance(this);
         RemoteDataSource remoteDataSource = RemoteDataSourceImpl.getInstance();
         mEventBus = getEventBus();
         mDataSource = DataSourceImpl.getInstance(localDataSource, remoteDataSource, mEventBus);
-        updateVkToken();
         startService();
     }
 
@@ -58,6 +58,10 @@ public class MainApplication extends Application {
         if (VKAccessToken.currentToken() != null) {
             authManager.setVkToken(VKAccessToken.currentToken().accessToken);
         }
+    }
+
+    public AuthorizationManager getAuthManager(){
+        return authManager;
     }
 
     public EventBus getEventBus() {

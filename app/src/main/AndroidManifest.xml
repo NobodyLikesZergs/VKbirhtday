@@ -22,6 +22,8 @@
 
         <activity android:name=".presentation.swipe.SwipeActivity" />
 
+        <activity android:name=".presentation.authorization.AuthorizationActivity" />
+
         <receiver android:name=".domain.service.AlarmsReceiver" />
 
         <service android:name=".domain.service.MessageService" />

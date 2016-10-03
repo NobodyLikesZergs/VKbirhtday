@@ -7,7 +7,7 @@ public class AuthorizationManager {
     private static AuthorizationManager INSTANCE;
 
     private AuthorizationManager() {
-        mVkToken = "";
+
     }
 
     public static AuthorizationManager getInstance() {
@@ -15,6 +15,12 @@ public class AuthorizationManager {
             INSTANCE = new AuthorizationManager();
         }
         return INSTANCE;
+    }
+
+    public boolean isEmpty() {
+        if (mVkToken == null)
+            return true;
+        return false;
     }
 
     public String getVkToken() {
