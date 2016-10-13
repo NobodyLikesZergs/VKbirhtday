@@ -17,7 +17,7 @@ public class AlarmsReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 70000, pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 120_000, pendingIntent);
         context.startService(new Intent(context, MessageService.class));
         Log.i(MainApplication.LOG_TAG, "AlarmsReceiver onReceive");
     }

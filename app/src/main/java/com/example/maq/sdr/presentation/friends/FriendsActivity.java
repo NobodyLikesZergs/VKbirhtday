@@ -1,8 +1,10 @@
 package com.example.maq.sdr.presentation.friends;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -75,7 +77,6 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         EventBus eventBus = mainApp.getEventBus();
         mPresenter = new FriendsPresenter(getLoaderManager(), dataSource, this, eventBus);
         mPresenter.onActivityRestart();
-        mPresenter.getFriends();
     }
 
     public void onButtonClick(View view) {
@@ -130,6 +131,40 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
                 imageView.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    @Override
+    public void showAuthorizationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Вы не авторизованы!")
+                .setMessage("Пожалуйста, авторизуйтесь!")
+                .setCancelable(false)
+                .setNegativeButton("Войти через ВК",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(FriendsActivity.this,
+                                        AuthorizationActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    @Override
+    public void showConnectionErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Соединение отсутствует!")
+                .setMessage("Пожалуйста, проверьте соединение и повторите попытку.")
+                .setCancelable(false)
+                .setNegativeButton("Повторить",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                mPresenter.getFriends();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override

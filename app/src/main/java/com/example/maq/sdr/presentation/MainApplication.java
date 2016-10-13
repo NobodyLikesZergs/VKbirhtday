@@ -83,7 +83,7 @@ public class MainApplication extends Application {
 //        if (pendingIntent == null) {
 //            pendingIntent = PendingIntent.getBroadcast(this, 0, intent,
 //                    PendingIntent.FLAG_UPDATE_CURRENT);
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 70000, pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 90_000, pendingIntent);
         Log.i(MainApplication.LOG_TAG, "mainApp: service started");
 //        }
     }

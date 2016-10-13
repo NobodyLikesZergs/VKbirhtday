@@ -1,6 +1,7 @@
 package com.example.maq.sdr.presentation.authorization;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -14,10 +15,21 @@ import com.vk.sdk.api.VKError;
 public class AuthorizationActivity extends AppCompatActivity {
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i(MainApplication.LOG_TAG, "AuthorizationActivity onCreate");
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.i(MainApplication.LOG_TAG, "AuthorizationActivity onDestroy");
+        super.onDestroy();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         VKSdk.login(this, VKScope.FRIENDS, VKScope.MESSAGES);
-        finish();
     }
 
     @Override
@@ -27,6 +39,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             public void onResult(VKAccessToken res) {
                 ((MainApplication) getApplication()).updateVkToken();
                 Log.i("Vk onResult token:", res.accessToken);
+                finish();
             }
 
             @Override
@@ -35,6 +48,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             }
         })) {
             super.onActivityResult(requestCode, resultCode, data);
+            finish();
         }
     }
 }

@@ -20,6 +20,10 @@ public interface FriendsContract {
 
         void hideConnectionErrorIcon();
 
+        void showAuthorizationDialog();
+
+        void showConnectionErrorDialog();
+
         Context getCurrentContext();
     }
 
