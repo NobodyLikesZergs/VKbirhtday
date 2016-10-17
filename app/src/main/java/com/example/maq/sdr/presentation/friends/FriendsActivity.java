@@ -45,10 +45,6 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         mFriendsAdapter = new FriendsAdapter(new ArrayList<Friend>(), this);
         mRecyclerView.setAdapter(mFriendsAdapter);
 
-        if (mainApp.getAuthManager().isEmpty()) {
-            Intent intent = new Intent(this, AuthorizationActivity.class);
-            startActivity(intent);
-        }
         createPresenter();
     }
 

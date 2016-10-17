@@ -50,6 +50,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
         Call<AccountResponseBean> call = mService.getVkAccountsList(authManager.getVkToken());
         Response<AccountResponseBean> response = call.execute();
         List<Friend> result = new ArrayList<>();
+        Log.i(MainApplication.LOG_TAG, "getFriends response: " + response.raw().toString());
         if(response.body().getErrorBean() != null) {
             parseError(response.body().getErrorBean());
         }
@@ -76,7 +77,8 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
     }
 
     private void parseError(ErrorBean errorBean) throws IOException, WrongTokenException {
-        if (errorBean.getErrorCode() == 5) {
+        if (errorBean.getErrorCode() == 5 ||
+                errorBean.getErrorCode() == 113) {
             throw new WrongTokenException();
         } else {
             throw new IOException();
