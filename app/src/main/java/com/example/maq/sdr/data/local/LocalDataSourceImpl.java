@@ -47,6 +47,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 FriendEntry.NAME_COLUMN,
                 FriendEntry.BIRTH_DATE_COLUMN,
                 FriendEntry.IMG_URL_COLUMN,
+                FriendEntry.PHOTO_100,
         };
         Cursor c = mDb.query(FriendEntry.TABLE_NAME, columns, selection, selectionArgs,
                 null, null, null);
@@ -56,12 +57,14 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 String name = c.getString(c.getColumnIndex(FriendEntry.NAME_COLUMN));
                 String birthDate = c.getString(c.getColumnIndex(FriendEntry.BIRTH_DATE_COLUMN));
                 String imgUrl = c.getString(c.getColumnIndex(FriendEntry.IMG_URL_COLUMN));
+                String photo100 = c.getString(c.getColumnIndex(FriendEntry.PHOTO_100));
                 Friend friend;
                 if (birthDate == null) {
-                    friend = new Friend(id, name, null, imgUrl, getAccountsByFriendId(id));
+                    friend = new Friend(id, name, null, imgUrl, photo100,
+                            getAccountsByFriendId(id));
                 } else {
                     friend = new Friend(id, name, DateTime.parse(birthDate),
-                            imgUrl, getAccountsByFriendId(id));
+                            imgUrl, photo100, getAccountsByFriendId(id));
                 }
                 friends.add(friend);
             }
@@ -82,6 +85,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
         ContentValues values = new ContentValues();
         values.put(FriendEntry.ID_COLUMN, friend.getId());
         values.put(FriendEntry.IMG_URL_COLUMN, friend.getImgUrl());
+        values.put(FriendEntry.PHOTO_100, friend.getPhoto100());
         values.put(FriendEntry.NAME_COLUMN, friend.getName());
         if (friend.getBirthDate() != null) {
             values.put(FriendEntry.BIRTH_DATE_COLUMN, friend.getBirthDate().toString());
@@ -112,6 +116,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 AccountEntry.NAME_COLUMN,
                 AccountEntry.BIRTH_DATE_COLUMN,
                 AccountEntry.IMG_URL_COLUMN,
+                AccountEntry.PHOTO_100,
         };
         Cursor c = mDb.query(AccountEntry.TABLE_NAME, columns, selection, selectionArgs,
                 null, null, null);
@@ -121,11 +126,13 @@ public class LocalDataSourceImpl implements LocalDataSource{
                 String name = c.getString(c.getColumnIndex(AccountEntry.NAME_COLUMN));
                 String birthDate = c.getString(c.getColumnIndex(AccountEntry.BIRTH_DATE_COLUMN));
                 String imgUrl = c.getString(c.getColumnIndex(AccountEntry.IMG_URL_COLUMN));
+                String photo100 = c.getString(c.getColumnIndex(AccountEntry.PHOTO_100));
                 Account account;
                 if (birthDate == null) {
-                    account = new VkAccount(id, imgUrl, null, getMessagesByAccountId(id), name);
+                    account = new VkAccount(id, imgUrl, photo100,
+                            null, getMessagesByAccountId(id), name);
                 } else {
-                    account = new VkAccount(id, imgUrl, DateTime.parse(birthDate),
+                    account = new VkAccount(id, imgUrl, photo100, DateTime.parse(birthDate),
                             getMessagesByAccountId(id), name);
                 }
                 accounts.add(account);
@@ -152,6 +159,7 @@ public class LocalDataSourceImpl implements LocalDataSource{
         values.put(AccountEntry.ID_COLUMN, account.getId());
         values.put(AccountEntry.NAME_COLUMN, account.getName());
         values.put(AccountEntry.IMG_URL_COLUMN, account.getImgUrl());
+        values.put(AccountEntry.PHOTO_100, account.getPhoto100());
         values.put(AccountEntry.FRIEND_ID_COLUMN, friend.getId());
         if (account.getBirthDate() != null) {
             values.put(AccountEntry.BIRTH_DATE_COLUMN, account.getBirthDate().toString());

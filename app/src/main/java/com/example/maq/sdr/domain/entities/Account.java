@@ -13,17 +13,20 @@ public abstract class Account {
 
     private String imgUrl;
 
+    private String photo100;
+
     private String name;
 
     private DateTime birthDate;
 
     private List<Message> messageList;
 
-    public Account(AccountType accountType, String id, String imgUrl,
+    public Account(AccountType accountType, String id, String imgUrl, String photo100,
                    DateTime birthDate, List<Message> messageList, String name) {
         this.id = id;
         this.accountType = accountType;
         this.imgUrl = imgUrl;
+        this.photo100 = photo100;
         this.birthDate = birthDate;
         this.name = name;
         if (messageList == null) {
@@ -71,5 +74,13 @@ public abstract class Account {
 
     public void setBirthDate(DateTime birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getPhoto100() {
+        return photo100;
+    }
+
+    public void setPhoto100(String photo100) {
+        this.photo100 = photo100;
     }
 }

@@ -15,14 +15,17 @@ public class Friend {
 
     private String imgUrl;
 
+    private String photo100;
+
     private List<Account> accountList;
 
-    public Friend (String id, String name, DateTime birthDate, String imgUrl,
+    public Friend (String id, String name, DateTime birthDate, String imgUrl, String photo100,
                    List<Account> accounts) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
         this.imgUrl = imgUrl;
+        this.photo100 = photo100;
         this.accountList = accounts;
     }
 
@@ -31,6 +34,7 @@ public class Friend {
         name = account.getName();
         this.birthDate = account.getBirthDate();
         imgUrl = account.getImgUrl();
+        this.photo100 = account.getPhoto100();
         accountList = new LinkedList<>();
         accountList.add(account);
     }
@@ -84,5 +88,13 @@ public class Friend {
         }
         Friend f = (Friend)o;
         return this.getId().equals(((Friend) o).getId());
+    }
+
+    public String getPhoto100() {
+        return photo100;
+    }
+
+    public void setPhoto100(String photo100) {
+        this.photo100 = photo100;
     }
 }

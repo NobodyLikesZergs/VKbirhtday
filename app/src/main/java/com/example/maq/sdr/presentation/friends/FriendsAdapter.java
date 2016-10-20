@@ -39,7 +39,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         }else {
             holder.date.setText(mFriends.get(position).getBirthDate().toString());
         }
-        String src = mFriends.get(position).getImgUrl();
+        String src = mFriends.get(position).getPhoto100();
         Picasso.with(mContext)
                 .load(src)
                 .resize(75, 75)

@@ -14,4 +14,6 @@ public class AccountEntry {
 
     public static final String FRIEND_ID_COLUMN = "FRIEND_ID";
 
+    public static final String PHOTO_100 = "PHOTO_100";
+
 }

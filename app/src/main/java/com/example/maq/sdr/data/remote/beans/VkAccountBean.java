@@ -28,6 +28,10 @@ public class VkAccountBean {
     @Expose
     private String imgUrl;
 
+    @SerializedName("photo_100")
+    @Expose
+    private String photo100;
+
     @SerializedName("bdate")
     private String birthDate;
 
@@ -41,7 +45,7 @@ public class VkAccountBean {
 
             }
         }
-        return new VkAccount(id, imgUrl, parsedBirthDate, new LinkedList<Message>(),
+        return new VkAccount(id, imgUrl, photo100, parsedBirthDate, new LinkedList<Message>(),
                 firstName, lastName);
     }
 }

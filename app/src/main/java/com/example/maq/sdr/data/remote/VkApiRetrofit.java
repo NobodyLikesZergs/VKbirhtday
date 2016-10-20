@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 
 public interface VkApiRetrofit {
 
-    @GET("friends.get?fields=photo_200_orig,bdate")
+    @GET("friends.get?fields=photo_200_orig,bdate,photo_100")
     Call<AccountResponseBean> getVkAccountsList(@Query("access_token") String token);
 
     @GET("messages.send?")

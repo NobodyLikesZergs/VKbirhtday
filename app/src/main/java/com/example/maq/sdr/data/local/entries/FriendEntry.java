@@ -12,4 +12,6 @@ public class FriendEntry {
 
     public static final String IMG_URL_COLUMN = "IMG_URL";
 
+    public static final String PHOTO_100 = "PHOTO_100";
+
 }

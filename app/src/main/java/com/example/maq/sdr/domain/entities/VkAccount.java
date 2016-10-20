@@ -6,14 +6,15 @@ import java.util.List;
 
 public class VkAccount extends Account{
 
-    public VkAccount(String id, String imgUrl, DateTime birthDate,
+    public VkAccount(String id, String imgUrl, String photo100, DateTime birthDate,
                      List<Message> messages,  String name) {
-        super(AccountType.VK_ACCOUNT, id, imgUrl, birthDate, messages, name);
+        super(AccountType.VK_ACCOUNT, id, imgUrl, photo100, birthDate, messages, name);
     }
 
-    public VkAccount(String id, String imgUrl, DateTime birthDate,
+    public VkAccount(String id, String imgUrl, String photo100, DateTime birthDate,
                      List<Message> messages, String firstName, String lastName) {
-        super(AccountType.VK_ACCOUNT, id, imgUrl, birthDate, messages, firstName + " " + lastName);
+        super(AccountType.VK_ACCOUNT, id, imgUrl, photo100, birthDate,
+                messages, firstName + " " + lastName);
     }
 
 }

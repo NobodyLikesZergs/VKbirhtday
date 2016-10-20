@@ -23,7 +23,8 @@ public class DbHelper extends SQLiteOpenHelper{
             FriendEntry.ID_COLUMN + TEXT_TYPE + " PRIMARY KEY," +
             FriendEntry.NAME_COLUMN + TEXT_TYPE + "," +
             FriendEntry.BIRTH_DATE_COLUMN + TEXT_TYPE + "," +
-            FriendEntry.IMG_URL_COLUMN + TEXT_TYPE +
+            FriendEntry.IMG_URL_COLUMN + TEXT_TYPE + "," +
+            FriendEntry.PHOTO_100 + TEXT_TYPE +
             " )";
 
     private final String SQL_CREATE_ACCOUNT_TABLE = "CREATE TABLE " +
@@ -32,7 +33,8 @@ public class DbHelper extends SQLiteOpenHelper{
             AccountEntry.FRIEND_ID_COLUMN + TEXT_TYPE + "," +
             AccountEntry.NAME_COLUMN + TEXT_TYPE + "," +
             AccountEntry.BIRTH_DATE_COLUMN + TEXT_TYPE + "," +
-            AccountEntry.IMG_URL_COLUMN + TEXT_TYPE +
+            AccountEntry.IMG_URL_COLUMN + TEXT_TYPE + "," +
+            AccountEntry.PHOTO_100 + TEXT_TYPE +
             " )";
 
     private final String SQL_CREATE_MESSAGE_TABLE = "CREATE TABLE " +
