@@ -38,9 +38,12 @@ public class VkAccountBean {
     public VkAccount createVkAccountObject() {
         DateTime parsedBirthDate = null;
         String[] formats = {"dd.MM.yyyy", "dd.MM"};
-        for (String format: formats) {
+        for (int i = 0; i < 2; i++) {
             try {
-                parsedBirthDate = DateTimeFormat.forPattern(format).parseDateTime(birthDate);
+                parsedBirthDate = DateTimeFormat.forPattern(formats[i]).parseDateTime(birthDate);
+                if (i == 1) {
+                    parsedBirthDate = parsedBirthDate.withYear(3000);
+                }
             } catch (Exception e) {
 
             }

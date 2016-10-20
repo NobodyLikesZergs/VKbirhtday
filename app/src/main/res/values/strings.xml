@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">Sdr</string>
     <integer name="com_vk_sdk_AppId">5588217</integer>
+
+    <string name="mon0">Неизвестно</string>
+    <string name="mon1">января</string>
+    <string name="mon2">февраля</string>
+    <string name="mon3">марта</string>
+    <string name="mon4">апреля</string>
+    <string name="mon5">мая</string>
+    <string name="mon6">июня</string>
+    <string name="mon7">июля</string>
+    <string name="mon8">августа</string>
+    <string name="mon9">сентября</string>
+    <string name="mon10">октября</string>
+    <string name="mon11">ноября</string>
+    <string name="mon12">декабря</string>
 </resources>

@@ -17,11 +17,15 @@ import java.util.List;
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder>{
 
     private List<Friend> mFriends;
+
     private Context mContext;
+
+    private FriendsDateConverter mDateConverter;
 
     public FriendsAdapter(List<Friend> friends, Context context) {
         mFriends = friends;
         mContext = context;
+        mDateConverter = new FriendsDateConverter(context);
     }
 
     @Override
@@ -34,11 +38,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.name.setText(mFriends.get(position).getName());
-        if (mFriends.get(position).getBirthDate() == null) {
-            holder.date.setText("null");
-        }else {
-            holder.date.setText(mFriends.get(position).getBirthDate().toString());
-        }
+        holder.date.setText(mDateConverter.convertDate(mFriends.get(position).getBirthDate()));
         String src = mFriends.get(position).getPhoto100();
         Picasso.with(mContext)
                 .load(src)
