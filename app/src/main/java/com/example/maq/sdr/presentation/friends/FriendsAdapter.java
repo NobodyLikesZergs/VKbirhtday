@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.maq.sdr.R;
@@ -42,7 +41,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         String src = mFriends.get(position).getPhoto100();
         Picasso.with(mContext)
                 .load(src)
-                .resize(75, 75)
                 .into(holder.image);
     }
 
@@ -70,13 +68,13 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
         private TextView name;
         private TextView date;
-        private ImageView image;
+        private CircleImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.name = (TextView) itemView.findViewById(R.id.friend_name);
             this.date = (TextView) itemView.findViewById(R.id.birth_date);
-            this.image = (ImageView) itemView.findViewById(R.id.image);
+            this.image = (CircleImageView) itemView.findViewById(R.id.image);
         }
     }
 }
