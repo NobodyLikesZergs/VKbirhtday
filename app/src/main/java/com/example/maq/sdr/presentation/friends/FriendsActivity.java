@@ -44,7 +44,7 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mFriendsAdapter = new FriendsAdapter(new ArrayList<Friend>(), this);
         mRecyclerView.setAdapter(mFriendsAdapter);
-
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
         createPresenter();
     }
 
