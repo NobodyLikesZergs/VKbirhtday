@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.example.maq.sdr.R;
 import com.example.maq.sdr.data.DataSource;
@@ -34,6 +34,8 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
 
     private MainApplication mainApp;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,13 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
         mRecyclerView.setAdapter(mFriendsAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
         createPresenter();
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getFriends();
+            }
+        });
     }
 
     @Override
@@ -87,22 +96,20 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
 
     @Override
     public void showProgressBar() {
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        progressBar.post(new Runnable() {
+        mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                progressBar.setVisibility(View.VISIBLE);
+                mSwipeRefreshLayout.setRefreshing(true);
             }
         });
     }
 
     @Override
     public void hideProgressBar() {
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        progressBar.post(new Runnable() {
+        mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                progressBar.setVisibility(View.INVISIBLE);
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }
