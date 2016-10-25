@@ -11,6 +11,8 @@ import com.example.maq.sdr.R;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder>{
@@ -54,14 +56,25 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     public void addData(List<Friend> friends) {
         int startPod = this.getItemCount();
         mFriends.addAll(friends);
+        sortList();
         int cnt = this.getItemCount() - startPod;
         this.notifyItemRangeChanged(startPod, cnt);
     }
 
     public void replaceData(List<Friend> friends) {
         mFriends = friends;
+        sortList();
         int cnt = this.getItemCount();
         this.notifyItemRangeChanged(0, cnt);
+    }
+
+    private void sortList() {
+        Collections.sort(mFriends, new Comparator<Friend>() {
+            @Override
+            public int compare(Friend lhs, Friend rhs) {
+                return lhs.getName().compareTo(rhs.getName());
+            }
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
