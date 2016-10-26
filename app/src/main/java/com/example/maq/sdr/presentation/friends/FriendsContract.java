@@ -16,10 +16,6 @@ public interface FriendsContract {
 
         void hideProgressBar();
 
-        void showConnectionErrorIcon();
-
-        void hideConnectionErrorIcon();
-
         void showAuthorizationDialog();
 
         void showConnectionErrorDialog();

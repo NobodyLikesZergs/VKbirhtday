@@ -10,7 +10,7 @@
         android:name=".presentation.MainApplication"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <activity android:name=".presentation.friends.FriendsActivity">
+        <activity android:name=".presentation.tabs.TabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,6 +21,8 @@
             android:label="ServiceActivity" android:theme="@style/VK.Transparent" />
 
         <activity android:name=".presentation.swipe.SwipeActivity" />
+
+        <activity android:name=".presentation.friends.FriendsActivity" />
 
         <activity android:name=".presentation.authorization.AuthorizationActivity" />
 

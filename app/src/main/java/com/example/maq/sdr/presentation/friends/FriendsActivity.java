@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.example.maq.sdr.R;
 import com.example.maq.sdr.data.DataSource;
@@ -110,28 +109,6 @@ public class FriendsActivity extends AppCompatActivity implements FriendsContrac
             @Override
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-    }
-
-    @Override
-    public void showConnectionErrorIcon() {
-        final ImageView imageView = (ImageView) findViewById(R.id.connection_error_icon);
-        imageView.post(new Runnable() {
-            @Override
-            public void run() {
-                imageView.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
-    @Override
-    public void hideConnectionErrorIcon() {
-        final ImageView imageView = (ImageView) findViewById(R.id.connection_error_icon);
-        imageView.post(new Runnable() {
-            @Override
-            public void run() {
-                imageView.setVisibility(View.INVISIBLE);
             }
         });
     }

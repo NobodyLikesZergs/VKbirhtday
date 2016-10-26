@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Sdr</string>
+
     <integer name="com_vk_sdk_AppId">5588217</integer>
+
+    <string name="list_tab">Список друзей</string>
+    <string name="swipe_tab">Настройка поздравлений</string>
 
     <string name="mon0">Неизвестно</string>
     <string name="mon1">января</string>

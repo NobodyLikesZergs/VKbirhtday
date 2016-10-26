@@ -7,15 +7,6 @@
     android:layout_weight="100"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="wrap_content"
@@ -32,33 +23,5 @@
             android:scrollbars="vertical"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="198dp"
-            android:layout_height="100dp"
-            android:text="button"
-            android:onClick="onButtonClick" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="30.21">
-
-            <ImageView
-                android:id="@+id/connection_error_icon"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:src="@mipmap/ic_signal_cellular_connected_no_internet_4_bar_black_24dp"
-                android:visibility="invisible" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>
