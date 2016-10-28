@@ -1,14 +1,14 @@
 package com.example.maq.sdr.domain.loaders;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.support.v4.content.AsyncTaskLoader;
 
 import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Friend;
 
 import java.util.List;
 
-public class GetFriendsLoader extends AsyncTaskLoader<List<Friend>>{
+public class GetFriendsLoader extends AsyncTaskLoader<List<Friend>> {
 
     private DataSource mRepository;
 

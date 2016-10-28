@@ -1,7 +1,7 @@
 package com.example.maq.sdr.domain.loaders;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.support.v4.content.AsyncTaskLoader;
 
 import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Account;

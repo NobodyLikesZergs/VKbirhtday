@@ -1,8 +1,8 @@
 package com.example.maq.sdr.presentation.friends;
 
-import android.app.LoaderManager;
-import android.content.Loader;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 
 import com.example.maq.sdr.data.DataSource;
@@ -47,11 +47,11 @@ public class FriendsPresenter implements FriendsContract.Presenter,
         mFriendsView.showFriends(friends);
     }
 
-    public void onActivityRestart() {
+    public void onStart() {
         mEventBus.register(this);
     }
 
-    public void onActivityStop() {
+    public void onStop() {
         mEventBus.unregister(this);
     }
 

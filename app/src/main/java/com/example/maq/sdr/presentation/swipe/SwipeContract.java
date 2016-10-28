@@ -21,9 +21,9 @@ public interface SwipeContract {
 
         void getFriends();
 
-        void onActivityRestart();
+        void onStart();
 
-        void onActivityStop();
+        void onStop();
 
         void saveMessage(Friend friend, Account account, Message message);
     }

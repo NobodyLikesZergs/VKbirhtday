@@ -1,37 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="4dip"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
+    <com.example.maq.sdr.presentation.tabs.NonSwipeableViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        android:layout_height="0px"
+        android:layout_weight="1">
 
-    <TabHost
-        android:id="@android:id/tabhost"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/pagerTabStrip"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </TabWidget>
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
+            android:layout_height="wrap_content"
+            android:layout_gravity="top">
+        </android.support.v4.view.PagerTabStrip>
+
+    </com.example.maq.sdr.presentation.tabs.NonSwipeableViewPager>
+
 </LinearLayout>

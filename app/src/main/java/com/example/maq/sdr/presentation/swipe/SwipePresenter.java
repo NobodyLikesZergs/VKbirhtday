@@ -1,7 +1,7 @@
 package com.example.maq.sdr.presentation.swipe;
 
-import android.app.LoaderManager;
 import android.os.AsyncTask;
+import android.support.v4.app.LoaderManager;
 
 import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Account;
@@ -45,11 +45,11 @@ public class SwipePresenter implements SwipeContract.Presenter {
         }.execute();
     }
 
-    public void onActivityRestart() {
+    public void onStart() {
         mEventBus.register(this);
     }
 
-    public void onActivityStop() {
+    public void onStop() {
         mEventBus.unregister(this);
     }
 

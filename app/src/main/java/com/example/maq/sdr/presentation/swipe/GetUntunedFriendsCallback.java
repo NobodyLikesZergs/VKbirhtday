@@ -1,8 +1,8 @@
 package com.example.maq.sdr.presentation.swipe;
 
-import android.app.LoaderManager;
-import android.content.Loader;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 
 import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Friend;

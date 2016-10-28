@@ -1,11 +1,14 @@
 package com.example.maq.sdr.presentation.swipe;
 
-import android.app.LoaderManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -21,19 +24,31 @@ import com.google.common.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SwipeActivity extends AppCompatActivity implements
+public class SwipeFragment extends Fragment implements
         SwipeContract.View {
 
     private SwipeDeck mSwipeDeck;
     private SwipeDeckAdapter mAdapter;
     private SwipeContract.Presenter mPresenter;
+    private MainApplication mApplication;
 
-    protected void onCreate(Bundle savedInstanceState) {
+    public static SwipeFragment newInstance(int page) {
+        SwipeFragment swipeFragment = new SwipeFragment();
+        return swipeFragment;
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.swipe_layout);
-        createPresenter();
-        mSwipeDeck = (SwipeDeck) findViewById(R.id.swipe_deck);
-        mAdapter = new SwipeDeckAdapter(new ArrayList<Friend>(), this);
+        mApplication = (MainApplication) getActivity().getApplication();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.swipe_layout, null);
+        mSwipeDeck = (SwipeDeck) view.findViewById(R.id.swipe_deck);
+        mAdapter = new SwipeDeckAdapter(new ArrayList<Friend>(), mApplication);
         mSwipeDeck.setAdapter(mAdapter);
         mSwipeDeck.setCallback(new SwipeDeck.SwipeDeckCallback() {
             @Override
@@ -54,7 +69,7 @@ public class SwipeActivity extends AppCompatActivity implements
                 Friend friend = (Friend) mAdapter.getItem((int) positionInAdapter);
                 if (friend.getBirthDate() == null)
                     return;
-                EditText editText = (EditText) findViewById(R.id.message_text);
+                EditText editText = (EditText) view.findViewById(R.id.message_text);
                 for (Account account: friend.getAccountList()) {
                     mPresenter.saveMessage(friend, account,
                             new Message(account.getId(), editText.getText().toString(),
@@ -62,37 +77,40 @@ public class SwipeActivity extends AppCompatActivity implements
                 }
             }
         });
-        Button swipeLeftButton = (Button) findViewById(R.id.swipe_left_button);
+        Button swipeLeftButton = (Button) view.findViewById(R.id.swipe_left_button);
         swipeLeftButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {   
+            public void onClick(View v) {
                 mSwipeDeck.swipeTopCardLeft(500);
             }
         });
-        Button swipeRigthButton = (Button) findViewById(R.id.swipe_rigth_button);
+        Button swipeRigthButton = (Button) view.findViewById(R.id.swipe_rigth_button);
         swipeRigthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mSwipeDeck.swipeTopCardRight(200);
             }
         });
+        createPresenter();
+        return view;
     }
 
     @Override
-    protected void onStop() {
-        mPresenter.onActivityStop();
+    public void onStop() {
+        mPresenter.onStop();
         super.onStop();
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        mPresenter.onActivityRestart();
+    public void onStart() {
+        super.onStart();
+        mPresenter.onStart();
+        mPresenter.getFriends();
     }
 
     @Override
     public Context getCurrentContext() {
-        return this;
+        return getActivity();
     }
 
     @Override
@@ -101,12 +119,9 @@ public class SwipeActivity extends AppCompatActivity implements
     }
 
     private void createPresenter() {
-        MainApplication application = (MainApplication) getApplication();
-        DataSource dataSource = application.getDataSource();
-        LoaderManager loaderManager = getLoaderManager();
-        EventBus eventBus = application.getEventBus();
+        DataSource dataSource = mApplication.getDataSource();
+        LoaderManager loaderManager = getActivity().getSupportLoaderManager();
+        EventBus eventBus = mApplication.getEventBus();
         mPresenter = new SwipePresenter(dataSource, loaderManager, this, eventBus);
-        mPresenter.onActivityRestart();
-        mPresenter.getFriends();
     }
 }

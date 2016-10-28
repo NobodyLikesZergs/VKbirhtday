@@ -1,31 +1,75 @@
 package com.example.maq.sdr.presentation.tabs;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TabHost;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 
 import com.example.maq.sdr.R;
-import com.example.maq.sdr.presentation.friends.FriendsActivity;
-import com.example.maq.sdr.presentation.swipe.SwipeActivity;
+import com.example.maq.sdr.presentation.friends.FriendsFragment;
+import com.example.maq.sdr.presentation.swipe.SwipeFragment;
 
-public class TabActivity extends android.app.TabActivity {
+public class TabActivity extends FragmentActivity {
 
-    public void onCreate(Bundle savedInstanceState) {
+    static final int PAGE_COUNT = 2;
+
+    NonSwipeableViewPager pager;
+    PagerAdapter pagerAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabs_layout);
 
-        TabHost tabHost = getTabHost();
+        pager = (NonSwipeableViewPager) findViewById(R.id.pager);
+        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(pagerAdapter);
 
-        TabHost.TabSpec tabSpec;
+//        pager.setOnPageChangeListener(new NonSwipeableViewPager.OnPageChangeListener() {
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                Log.d(TAG, "onPageSelected, position = " + position);
+//            }
+//
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset,
+//                                       int positionOffsetPixels) {
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//            }
+//        });
+    }
 
-        tabSpec = tabHost.newTabSpec("tag1");
-        tabSpec.setIndicator(getString(R.string.list_tab));
-        tabSpec.setContent(new Intent(this, FriendsActivity.class));
-        tabHost.addTab(tabSpec);
+    private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        tabSpec = tabHost.newTabSpec("tag2");
-        tabSpec.setIndicator(getString(R.string.swipe_tab));
-        tabSpec.setContent(new Intent(this, SwipeActivity.class));
-        tabHost.addTab(tabSpec);
+        public MyFragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position==0)
+                return FriendsFragment.newInstance(position);
+            else
+                return SwipeFragment.newInstance(position);
+        }
+
+        @Override
+        public int getCount() {
+            return PAGE_COUNT;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position == 0)
+                return getString(R.string.list_tab);
+            else
+                return getString(R.string.swipe_tab);
+        }
     }
 }
