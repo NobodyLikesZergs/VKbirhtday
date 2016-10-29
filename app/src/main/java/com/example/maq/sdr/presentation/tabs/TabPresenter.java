@@ -28,10 +28,14 @@ public class TabPresenter implements TabContract.Presenter {
 
     @Subscribe
     public void task(FriendsUpdateEvent e) {
+        mTabView.hideConnectionErrorIcon();
         if (e.getResult() == FriendsUpdateEvent.Result.CONNECTION_ERROR) {
             mTabView.showConnectionErrorIcon();
-        } else {
-            mTabView.hideConnectionErrorIcon();
+            mTabView.showConnectionErrorDialog();
+        } else if(e.getResult() == FriendsUpdateEvent.Result.NOT_NEED) {
+        } else if(e.getResult() == FriendsUpdateEvent.Result.WRONG_TOKEN) {
+            mTabView.showAuthorizationDialog();
+        } else if(e.getResult() == FriendsUpdateEvent.Result.OK) {
         }
     }
 }

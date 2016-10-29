@@ -1,16 +1,16 @@
 package com.example.maq.sdr.presentation.tabs;
 
-import android.content.Context;
-
 public interface TabContract {
 
     interface View {
 
-        Context getCurrentContext();
-
         void showConnectionErrorIcon();
 
         void hideConnectionErrorIcon();
+
+        void showAuthorizationDialog();
+
+        void showConnectionErrorDialog();
     }
 
     interface Presenter {

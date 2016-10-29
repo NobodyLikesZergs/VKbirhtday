@@ -6,6 +6,16 @@
     <string name="list_tab">Список друзей</string>
     <string name="swipe_tab">Настройка поздравлений</string>
 
+    <string name="no_connection_title">Соединение отсутствует!</string>
+    <string name="no_connection_message">
+        Пожалуйста, проверьте соединение и повторите попытку.
+    </string>
+    <string name="no_connection_positive">OK</string>
+
+    <string name="auth_error_title">Вы не авторизованы!</string>
+    <string name="auth_error_message">Пожалуйста, авторизуйтесь!</string>
+    <string name="auth_error_positive">Войти через ВК</string>
+
     <string name="mon0">Неизвестно</string>
     <string name="mon1">января</string>
     <string name="mon2">февраля</string>

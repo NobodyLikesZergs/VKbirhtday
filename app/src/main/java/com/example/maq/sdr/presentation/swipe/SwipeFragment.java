@@ -97,6 +97,7 @@ public class SwipeFragment extends Fragment implements
 
     @Override
     public void onStop() {
+        Log.i(MainApplication.LOG_TAG, "SwipeFragment onStop");
         mPresenter.onStop();
         super.onStop();
     }
@@ -104,6 +105,7 @@ public class SwipeFragment extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
+        Log.i(MainApplication.LOG_TAG, "SwipeFragment onStart");
         mPresenter.onStart();
         mPresenter.getFriends();
     }

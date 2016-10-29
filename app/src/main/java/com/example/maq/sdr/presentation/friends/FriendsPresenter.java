@@ -77,10 +77,8 @@ public class FriendsPresenter implements FriendsContract.Presenter,
             getFriends();
             Log.i(MainApplication.LOG_TAG, "FriendsPresenter OK event");
         } else if (e.getResult() == FriendsUpdateEvent.Result.CONNECTION_ERROR) {
-            mFriendsView.showConnectionErrorDialog();
             Log.i(MainApplication.LOG_TAG, "FriendsPresenter CONNECTION_ERROR event");
         } else if (e.getResult() == FriendsUpdateEvent.Result.WRONG_TOKEN) {
-            mFriendsView.showAuthorizationDialog();
             Log.i(MainApplication.LOG_TAG, "FriendsPresenter WRONG_TOKEN event");
         }
         mFriendsView.hideProgressBar();

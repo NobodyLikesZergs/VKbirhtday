@@ -1,13 +1,10 @@
 package com.example.maq.sdr.presentation.friends;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,7 +16,6 @@ import com.example.maq.sdr.R;
 import com.example.maq.sdr.data.DataSource;
 import com.example.maq.sdr.domain.entities.Friend;
 import com.example.maq.sdr.presentation.MainApplication;
-import com.example.maq.sdr.presentation.authorization.AuthorizationActivity;
 import com.google.common.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -116,40 +112,6 @@ public class FriendsFragment extends Fragment implements FriendsContract.View{
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
-    }
-
-    @Override
-    public void showAuthorizationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Вы не авторизованы!")
-                .setMessage("Пожалуйста, авторизуйтесь!")
-                .setCancelable(false)
-                .setNegativeButton("Войти через ВК",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(getActivity(),
-                                        AuthorizationActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    @Override
-    public void showConnectionErrorDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Соединение отсутствует!")
-                .setMessage("Пожалуйста, проверьте соединение и повторите попытку.")
-                .setCancelable(false)
-                .setNegativeButton("Повторить",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                mPresenter.getFriends();
-                            }
-                        });
-        AlertDialog alert = builder.create();
-        alert.show();
     }
 
     @Override

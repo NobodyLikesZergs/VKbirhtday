@@ -16,10 +16,6 @@ public interface FriendsContract {
 
         void hideProgressBar();
 
-        void showAuthorizationDialog();
-
-        void showConnectionErrorDialog();
-
         Context getCurrentContext();
     }
 
