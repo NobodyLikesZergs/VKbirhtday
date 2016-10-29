@@ -4,11 +4,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.maq.sdr.R;
 import com.example.maq.sdr.presentation.MainApplication;
@@ -17,12 +20,14 @@ import com.example.maq.sdr.presentation.friends.FriendsFragment;
 import com.example.maq.sdr.presentation.swipe.SwipeFragment;
 import com.google.common.eventbus.EventBus;
 
-public class TabActivity extends FragmentActivity implements TabContract.View {
+public class TabActivity extends AppCompatActivity implements TabContract.View {
 
     static final int PAGE_COUNT = 2;
 
-    private int connectionErrorDialogsCount;
-    private int authErrorDialogsCount;
+    private boolean connectionErrorDialogVisible;
+    private boolean authErrorDialogVisible;
+
+    private ImageView connectionErrorIcon;
 
     NonSwipeableViewPager pager;
 
@@ -37,10 +42,13 @@ public class TabActivity extends FragmentActivity implements TabContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabs_layout);
 
+        connectionErrorIcon = (ImageView) findViewById(R.id.connection_error_image);
         pager = (NonSwipeableViewPager) findViewById(R.id.pager);
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
         mainApplication = (MainApplication) getApplication();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         createPresenter();
     }
 
@@ -63,19 +71,29 @@ public class TabActivity extends FragmentActivity implements TabContract.View {
 
     @Override
     public void showConnectionErrorIcon() {
-
+        connectionErrorIcon.post(new Runnable() {
+            @Override
+            public void run() {
+                connectionErrorIcon.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void hideConnectionErrorIcon() {
-
+        connectionErrorIcon.post(new Runnable() {
+            @Override
+            public void run() {
+                connectionErrorIcon.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
     public void showAuthorizationDialog() {
-        if (authErrorDialogsCount > 0)
+        if (authErrorDialogVisible)
             return;
-        authErrorDialogsCount++;
+        authErrorDialogVisible = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.auth_error_title))
                 .setMessage(getString(R.string.auth_error_message))
@@ -83,7 +101,7 @@ public class TabActivity extends FragmentActivity implements TabContract.View {
                 .setPositiveButton(getString(R.string.auth_error_positive),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                authErrorDialogsCount--;
+                                authErrorDialogVisible = false;
                                 Intent intent = new Intent(TabActivity.this,
                                         AuthorizationActivity.class);
                                 startActivity(intent);
@@ -95,9 +113,9 @@ public class TabActivity extends FragmentActivity implements TabContract.View {
 
     @Override
     public void showConnectionErrorDialog() {
-        if (connectionErrorDialogsCount > 0)
+        if (connectionErrorDialogVisible)
             return;
-        connectionErrorDialogsCount++;
+        connectionErrorDialogVisible=true;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.no_connection_title))
                 .setMessage(getString(R.string.no_connection_message))
@@ -105,7 +123,7 @@ public class TabActivity extends FragmentActivity implements TabContract.View {
                 .setPositiveButton(getString(R.string.no_connection_positive),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                connectionErrorDialogsCount--;
+                                connectionErrorDialogVisible=false;
                             }
                         });
         AlertDialog alert = builder.create();
@@ -120,7 +138,7 @@ public class TabActivity extends FragmentActivity implements TabContract.View {
 
         @Override
         public Fragment getItem(int position) {
-            if (position==0)
+            if (position == 0)
                 return FriendsFragment.newInstance(position);
             else
                 return SwipeFragment.newInstance(position);
