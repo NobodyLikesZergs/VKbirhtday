@@ -17,17 +17,17 @@ public class CircleImageView extends ImageView {
 
     public CircleImageView(Context context) {
         super(context);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.cardview_bg));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.friend_list_card_bg));
     }
 
     public CircleImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.cardview_bg));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.friend_list_card_bg));
     }
 
     public CircleImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.cardview_bg));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.friend_list_card_bg));
     }
 
     @Override

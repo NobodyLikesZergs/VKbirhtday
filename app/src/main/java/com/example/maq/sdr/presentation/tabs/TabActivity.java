@@ -3,10 +3,12 @@ package com.example.maq.sdr.presentation.tabs;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,23 +31,53 @@ public class TabActivity extends AppCompatActivity implements TabContract.View {
 
     private ImageView connectionErrorIcon;
 
-    NonSwipeableViewPager pager;
+    private NonSwipeableViewPager pager;
 
-    PagerAdapter pagerAdapter;
+    private PagerAdapter pagerAdapter;
 
-    TabContract.Presenter mPresenter;
+    private TabContract.Presenter mPresenter;
 
-    MainApplication mainApplication;
+    private MainApplication mainApplication;
+
+    private FloatingActionButton mLeftButton;
+    private FloatingActionButton mRightButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabs_layout);
 
+        mLeftButton = (FloatingActionButton) findViewById(R.id.swipe_left_button);
+        mRightButton = (FloatingActionButton) findViewById(R.id.swipe_rigth_button);
+
         connectionErrorIcon = (ImageView) findViewById(R.id.connection_error_image);
         pager = (NonSwipeableViewPager) findViewById(R.id.pager);
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    mLeftButton.hide();
+                    mRightButton.hide();
+                } else {
+                    mLeftButton.show();
+                    mRightButton.show();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         mainApplication = (MainApplication) getApplication();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

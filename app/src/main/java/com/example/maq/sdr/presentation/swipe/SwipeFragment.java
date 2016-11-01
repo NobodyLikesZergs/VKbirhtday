@@ -3,13 +3,13 @@ package com.example.maq.sdr.presentation.swipe;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.daprlabs.aaron.swipedeck.SwipeDeck;
@@ -77,14 +77,16 @@ public class SwipeFragment extends Fragment implements
                 }
             }
         });
-        Button swipeLeftButton = (Button) view.findViewById(R.id.swipe_left_button);
+        FloatingActionButton swipeLeftButton = (FloatingActionButton) getActivity()
+                .findViewById(R.id.swipe_left_button);
         swipeLeftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mSwipeDeck.swipeTopCardLeft(500);
             }
         });
-        Button swipeRigthButton = (Button) view.findViewById(R.id.swipe_rigth_button);
+        FloatingActionButton swipeRigthButton = (FloatingActionButton) getActivity()
+                .findViewById(R.id.swipe_rigth_button);
         swipeRigthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

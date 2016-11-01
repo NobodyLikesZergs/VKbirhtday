@@ -3,5 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="cardview_bg">#FFFAFAFA</color>
+    <color name="friend_list_card_bg">#FFFAFAFA</color>
+    <color name="swipe_button">#ff9800</color>
 </resources>

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="4dip"
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/tabs_root">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -26,7 +29,8 @@
     <com.example.maq.sdr.presentation.tabs.NonSwipeableViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="0px"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
         android:layout_weight="1">
 
         <android.support.v4.view.PagerTabStrip
@@ -38,4 +42,50 @@
 
     </com.example.maq.sdr.presentation.tabs.NonSwipeableViewPager>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/swipe_left_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@color/swipe_button"
+                android:stateListAnimator="@animator/floating_button_anim"
+                android:src="@drawable/ic_cancel_black_36dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="invisible"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <android.support.design.widget.FloatingActionButton
+                android:stateListAnimator="@animator/floating_button_anim"
+                app:backgroundTint="@color/swipe_button"
+                android:id="@+id/swipe_rigth_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_gift_black_36dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
