@@ -11,9 +11,9 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
+        android:minHeight="1dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="?attr/colorPrimary">
 
         <ImageView
@@ -25,22 +25,6 @@
             android:src=
                 "@drawable/ic_signal_cellular_connected_no_internet_4_bar_black_24dp"/>
     </android.support.v7.widget.Toolbar>
-
-    <com.example.maq.sdr.presentation.tabs.NonSwipeableViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:layout_weight="1">
-
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/pagerTabStrip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top">
-        </android.support.v4.view.PagerTabStrip>
-
-    </com.example.maq.sdr.presentation.tabs.NonSwipeableViewPager>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -87,5 +71,21 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.example.maq.sdr.presentation.tabs.NonSwipeableViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_weight="1">
+
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/pagerTabStrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top">
+        </android.support.v4.view.PagerTabStrip>
+
+    </com.example.maq.sdr.presentation.tabs.NonSwipeableViewPager>
 
 </RelativeLayout>
