@@ -52,21 +52,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="25 years in 2 weeks"
                 android:layout_gravity="left" />
-
-            <EditText
-                android:id="@+id/message_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="7dp"
-                android:background="@drawable/style"
-                android:elevation="0dp"
-                android:text="Congrats\nMy friend" />
 
         </LinearLayout>
 

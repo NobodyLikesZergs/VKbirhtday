@@ -3,7 +3,6 @@ package com.example.maq.sdr.presentation.swipe;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.util.Log;
@@ -11,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.daprlabs.aaron.swipedeck.SwipeDeck;
 import com.example.maq.sdr.R;
@@ -77,20 +77,18 @@ public class SwipeFragment extends Fragment implements
                 }
             }
         });
-        FloatingActionButton swipeLeftButton = (FloatingActionButton) getActivity()
-                .findViewById(R.id.swipe_left_button);
-        swipeLeftButton.setOnClickListener(new View.OnClickListener() {
+        LinearLayout leftButton = (LinearLayout) view.findViewById(R.id.swipe_button_left);
+        leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSwipeDeck.swipeTopCardLeft(500);
+                mSwipeDeck.swipeTopCardLeft(350);
             }
         });
-        FloatingActionButton swipeRigthButton = (FloatingActionButton) getActivity()
-                .findViewById(R.id.swipe_rigth_button);
-        swipeRigthButton.setOnClickListener(new View.OnClickListener() {
+        LinearLayout rightButton = (LinearLayout) view.findViewById(R.id.swipe_button_right);
+        rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSwipeDeck.swipeTopCardRight(200);
+                mSwipeDeck.swipeTopCardRight(350);
             }
         });
         createPresenter();

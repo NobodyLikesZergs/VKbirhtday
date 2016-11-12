@@ -3,7 +3,6 @@ package com.example.maq.sdr.presentation.tabs;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -39,16 +38,10 @@ public class TabActivity extends AppCompatActivity implements TabContract.View {
 
     private MainApplication mainApplication;
 
-    private FloatingActionButton mLeftButton;
-    private FloatingActionButton mRightButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabs_layout);
-
-        mLeftButton = (FloatingActionButton) findViewById(R.id.swipe_left_button);
-        mRightButton = (FloatingActionButton) findViewById(R.id.swipe_rigth_button);
 
         connectionErrorIcon = (ImageView) findViewById(R.id.connection_error_image);
         pager = (NonSwipeableViewPager) findViewById(R.id.pager);
@@ -63,13 +56,6 @@ public class TabActivity extends AppCompatActivity implements TabContract.View {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 0) {
-                    mLeftButton.hide();
-                    mRightButton.hide();
-                } else {
-                    mLeftButton.show();
-                    mRightButton.show();
-                }
             }
 
             @Override

@@ -14,14 +14,60 @@
         app:max_visible="2"
         app:card_spacing="5dp"
         app:swipe_enabled="true"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="132dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"/>
 
+    <EditText
+        android:id="@+id/message_text"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/style"
+        android:elevation="0dp"
+        android:text="Congrats\nMy friend" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom"/>
+        android:layout_height="52dp"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/swipe_button_left"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="13dp"
+                android:src="@drawable/ic_close_black_24dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/swipe_button_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="13dp"
+                android:layout_marginTop="13dp"
+                android:src="@drawable/ic_gift_black_24dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </com.daprlabs.aaron.swipedeck.layouts.SwipeFrameLayout>
