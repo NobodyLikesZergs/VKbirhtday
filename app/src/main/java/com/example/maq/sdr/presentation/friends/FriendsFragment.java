@@ -52,11 +52,11 @@ public class FriendsFragment extends Fragment implements FriendsContract.View{
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.friends_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mFriendsAdapter = new FriendsAdapter(new ArrayList<Friend>(), getActivity());
+        createPresenter();
+        mFriendsAdapter = new FriendsAdapter(new ArrayList<Friend>(), getActivity(), mPresenter);
         mRecyclerView.setAdapter(mFriendsAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
                 R.drawable.divider));
-        createPresenter();
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.example.maq.sdr.data.DataSource;
-import com.example.maq.sdr.domain.entities.Account;
 import com.example.maq.sdr.domain.entities.Friend;
 
 import java.util.LinkedList;
@@ -24,19 +23,10 @@ public class GetUntunedFriendsLoader extends AsyncTaskLoader<List<Friend>> {
         List<Friend> friendList = mDataSource.getFriends();
         List<Friend> result = new LinkedList<>();
         for (Friend friend: friendList) {
-            if (isUntuned(friend)) {
+            if (friend.isUntuned()) {
                 result.add(friend);
             }
         }
         return result;
-    }
-
-    private boolean isUntuned(Friend friend) {
-        for (Account account: friend.getAccountList()) {
-            if (!account.getMessageList().isEmpty()) {
-                return false;
-            }
-        }
-        return true;
     }
 }

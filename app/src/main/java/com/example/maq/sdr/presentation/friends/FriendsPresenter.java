@@ -20,6 +20,8 @@ public class FriendsPresenter implements FriendsContract.Presenter,
 
     private final static int GET_FRIENDS_LOADER_ID = 1;
 
+    private final static int DELETE_MESSAGES_LOADER_ID = 102;
+
     private LoaderManager mLoaderManager;
 
     private DataSource mDataSource;
@@ -27,6 +29,7 @@ public class FriendsPresenter implements FriendsContract.Presenter,
     private FriendsContract.View mFriendsView;
 
     private EventBus mEventBus;
+
 
     public FriendsPresenter(LoaderManager loaderManager, DataSource dataSource,
                             FriendsContract.View view, EventBus eventBus) {
@@ -41,6 +44,12 @@ public class FriendsPresenter implements FriendsContract.Presenter,
         mLoaderManager.restartLoader(GET_FRIENDS_LOADER_ID, null, this)
                 .forceLoad();
         mFriendsView.showProgressBar();
+    }
+
+    @Override
+    public void deleteMessagesByFriend(Friend friend) {
+        mLoaderManager.restartLoader(DELETE_MESSAGES_LOADER_ID, null, new DeleteMessagesCallback(mFriendsView, mDataSource, friend))
+                .forceLoad();
     }
 
     public void showFriends(List<Friend> friends) {

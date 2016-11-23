@@ -221,6 +221,21 @@ public class LocalDataSourceImpl implements LocalDataSource{
         mDb.insert(MessageEntry.TABLE_NAME, null, values);
     }
 
+    @Override
+    public void deleteMessagesByFriend(Friend friend) {
+        for (Account account: friend.getAccountList()) {
+            if (account != null) {
+                deleteMessagesByAccount(account);
+            }
+        }
+    }
+
+    @Override
+    public void deleteMessagesByAccount(Account account) {
+        mDb.execSQL("DELETE FROM " + MessageEntry.TABLE_NAME +
+                " WHERE " + MessageEntry.ACCOUNT_ID_COLUMN + "="+ account.getId());
+    }
+
     private void deleteMessage(String messageId) {
         mDb.execSQL("DELETE FROM " + MessageEntry.TABLE_NAME +
                 " WHERE " + MessageEntry.ID_COLUMN + "="+ messageId);

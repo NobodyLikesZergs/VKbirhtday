@@ -97,4 +97,13 @@ public class Friend {
     public void setPhoto100(String photo100) {
         this.photo100 = photo100;
     }
+
+    public boolean isUntuned() {
+        for (Account account: this.getAccountList()) {
+            if (!account.getMessageList().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

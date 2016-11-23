@@ -15,4 +15,8 @@ public interface LocalDataSource {
     void saveFriends(List<Friend> friends);
 
     void saveMessage(Friend friend, Account account, Message message);
+
+    void deleteMessagesByFriend(Friend friend);
+
+    void deleteMessagesByAccount(Account account);
 }

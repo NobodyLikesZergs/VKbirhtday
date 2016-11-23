@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.daprlabs.aaron.swipedeck.SwipeDeck;
@@ -31,15 +30,16 @@ public class SwipeFragment extends Fragment implements
     private SwipeDeckAdapter mAdapter;
     private SwipeContract.Presenter mPresenter;
     private MainApplication mApplication;
+    private EditViewPager editViewPager;
 
     public static SwipeFragment newInstance(int page) {
-        SwipeFragment swipeFragment = new SwipeFragment();
-        return swipeFragment;
+        return new SwipeFragment();
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mApplication = (MainApplication) getActivity().getApplication();
+        createPresenter();
     }
 
     @Nullable
@@ -47,6 +47,7 @@ public class SwipeFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.swipe_layout, null);
+        editViewPager = (EditViewPager) view.findViewById(R.id.edit_view_pager);
         mSwipeDeck = (SwipeDeck) view.findViewById(R.id.swipe_deck);
         mAdapter = new SwipeDeckAdapter(new ArrayList<Friend>(), mApplication);
         mSwipeDeck.setAdapter(mAdapter);
@@ -62,17 +63,16 @@ public class SwipeFragment extends Fragment implements
                             new Message(account.getId(), null, friend.getBirthDate()));
                 }
             }
-
             @Override
             public void cardSwipedRight(long positionInAdapter) {
                 Log.i("MainActivity", "card was swiped right");
                 Friend friend = (Friend) mAdapter.getItem((int) positionInAdapter);
                 if (friend.getBirthDate() == null)
                     return;
-                EditText editText = (EditText) view.findViewById(R.id.message_text);
+                editViewPager.saveCurrentContent();
                 for (Account account: friend.getAccountList()) {
                     mPresenter.saveMessage(friend, account,
-                            new Message(account.getId(), editText.getText().toString(),
+                            new Message(account.getId(), editViewPager.getText().toString(),
                                     friend.getBirthDate()));
                 }
             }
@@ -91,8 +91,18 @@ public class SwipeFragment extends Fragment implements
                 mSwipeDeck.swipeTopCardRight(350);
             }
         });
-        createPresenter();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(MainApplication.LOG_TAG, "SwipeFragment: onResume");
+    }
+
+    public void refreshFriends() {
+        editViewPager.refreshContent();
+        mPresenter.getFriends();
     }
 
     @Override
@@ -105,19 +115,20 @@ public class SwipeFragment extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        Log.i(MainApplication.LOG_TAG, "SwipeFragment onStart");
+        refreshFriends();
         mPresenter.onStart();
-        mPresenter.getFriends();
     }
 
     @Override
     public Context getCurrentContext() {
-        return getActivity();
+        return getContext();
     }
 
     @Override
     public void showFriends(List<Friend> friendsList) {
         mAdapter.setData(friendsList);
+        mAdapter.notifyDataSetChanged();
+        Log.i(MainApplication.LOG_TAG, "SwipeFragment: showFriends" +" " + ((Friend)mAdapter.getItem(0)).getName());
     }
 
     private void createPresenter() {

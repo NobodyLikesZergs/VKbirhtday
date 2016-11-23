@@ -16,4 +16,6 @@ public interface DataSource {
 
     void saveMessage(Friend friend, Account account, Message message);
 
+    void deleteMessagesByFriend(Friend friend);
+
 }

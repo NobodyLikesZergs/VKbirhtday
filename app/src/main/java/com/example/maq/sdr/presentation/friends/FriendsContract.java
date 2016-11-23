@@ -27,5 +27,7 @@ public interface FriendsContract {
 
         void onStop();
 
+        void deleteMessagesByFriend(Friend friend);
+
     }
 }

@@ -20,9 +20,7 @@
         <activity android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity" android:theme="@style/VK.Transparent" />
 
-        <activity android:name=".presentation.swipe.SwipeFragment" />
-
-        <activity android:name=".presentation.friends.FriendsFragment" />
+        <activity android:name=".presentation.swipe.EditViewActivity" />
 
         <activity android:name=".presentation.authorization.AuthorizationActivity" />
 

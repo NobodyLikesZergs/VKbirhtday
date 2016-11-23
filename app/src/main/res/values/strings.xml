@@ -29,4 +29,10 @@
     <string name="mon10">октября</string>
     <string name="mon11">ноября</string>
     <string name="mon12">декабря</string>
+
+    <string name="def_congrats0">Hi</string>
+    <string name="def_congrats1">Congrats</string>
+    <string name="def_congrats2">be happy</string>
+    <string name="def_congrats3">qq</string>
+    <string name="def_congrats4">s dr</string>
 </resources>

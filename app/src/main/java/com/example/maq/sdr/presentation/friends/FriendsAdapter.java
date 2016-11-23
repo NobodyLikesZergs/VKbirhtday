@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.maq.sdr.R;
@@ -23,10 +24,14 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
     private FriendsDateConverter mDateConverter;
 
-    public FriendsAdapter(List<Friend> friends, Context context) {
+    private FriendsContract.Presenter mPresenter;
+
+    public FriendsAdapter(List<Friend> friends, Context context,
+                          FriendsContract.Presenter presenter) {
         mFriends = friends;
         mContext = context;
         mDateConverter = new FriendsDateConverter(context);
+        mPresenter = presenter;
     }
 
     @Override
@@ -37,13 +42,22 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.name.setText(mFriends.get(position).getName());
         holder.date.setText(mDateConverter.convertDate(mFriends.get(position).getBirthDate()));
         String src = mFriends.get(position).getPhoto100();
         Picasso.with(mContext)
                 .load(src)
                 .into(holder.image);
+        if(!mFriends.get(position).isUntuned()) {
+            holder.removeMessageButton.setVisibility(View.VISIBLE);
+            holder.removeMessageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPresenter.deleteMessagesByFriend(mFriends.get(position));
+                }
+            });
+        }
     }
 
     @Override
@@ -82,12 +96,15 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         private TextView name;
         private TextView date;
         private CircleImageView image;
+        private ImageView removeMessageButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.name = (TextView) itemView.findViewById(R.id.friend_name);
             this.date = (TextView) itemView.findViewById(R.id.birth_date);
             this.image = (CircleImageView) itemView.findViewById(R.id.image);
+            this.removeMessageButton =
+                    (ImageView) itemView.findViewById(R.id.remove_message_button);
         }
     }
 }

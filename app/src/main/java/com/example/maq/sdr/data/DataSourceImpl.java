@@ -68,6 +68,11 @@ public class DataSourceImpl implements DataSource{
         mLocalDataSource.saveMessage(friend, account, message);
     }
 
+    @Override
+    public void deleteMessagesByFriend(Friend friend) {
+        mLocalDataSource.deleteMessagesByFriend(friend);
+    }
+
     private void refreshFriends() {
         DateTime currentTime = new DateTime();
         if (currentTime.minusMinutes(1).getMillis() > mLastFriendsUpdate.getMillis()) {

@@ -21,8 +21,6 @@ public class SwipePresenter implements SwipeContract.Presenter {
 
     private SwipeContract.View mSwipeView;
 
-    private GetUntunedFriendsCallback mGetFriendsCallback;
-
     private EventBus mEventBus;
 
     public SwipePresenter(DataSource dataSource, LoaderManager loaderManager,
@@ -30,7 +28,6 @@ public class SwipePresenter implements SwipeContract.Presenter {
         mDataSource = dataSource;
         mLoaderManager = loaderManager;
         mSwipeView = view;
-        mGetFriendsCallback = new GetUntunedFriendsCallback(mSwipeView, dataSource);
         mEventBus = eventBus;
     }
 
@@ -55,7 +52,8 @@ public class SwipePresenter implements SwipeContract.Presenter {
 
     @Override
     public void getFriends() {
-        mLoaderManager.restartLoader(GET_FRIENDS_LOADER_ID, null, mGetFriendsCallback).forceLoad();
+        mLoaderManager.restartLoader(GET_FRIENDS_LOADER_ID, null,
+                new GetUntunedFriendsCallback(mSwipeView, mDataSource)).forceLoad();
     }
 
     @Subscribe
@@ -64,7 +62,7 @@ public class SwipePresenter implements SwipeContract.Presenter {
             getFriends();
         } else if (e.getResult() == FriendsUpdateEvent.Result.NOT_NEED) {
         } else if (e.getResult() == FriendsUpdateEvent.Result.CONNECTION_ERROR) {
-        };
+        }
     }
 
 }

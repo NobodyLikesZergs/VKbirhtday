@@ -5,13 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.maq.sdr.R;
@@ -32,7 +34,7 @@ public class TabActivity extends AppCompatActivity implements TabContract.View {
 
     private NonSwipeableViewPager pager;
 
-    private PagerAdapter pagerAdapter;
+    private MyFragmentPagerAdapter pagerAdapter;
 
     private TabContract.Presenter mPresenter;
 
@@ -56,6 +58,14 @@ public class TabActivity extends AppCompatActivity implements TabContract.View {
 
             @Override
             public void onPageSelected(int position) {
+                Log.i(MainApplication.LOG_TAG, "page selected: " + position);
+                if (position == 1) {
+                    SwipeFragment fragment = ((SwipeFragment) pagerAdapter
+                            .getRegisteredFragment(position));
+                    if (fragment != null) {
+                        fragment.refreshFriends();
+                    }
+                }
             }
 
             @Override
@@ -148,7 +158,9 @@ public class TabActivity extends AppCompatActivity implements TabContract.View {
         alert.show();
     }
 
-    private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
+    private class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
+
+        SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -173,6 +185,23 @@ public class TabActivity extends AppCompatActivity implements TabContract.View {
                 return getString(R.string.list_tab);
             else
                 return getString(R.string.swipe_tab);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            registeredFragments.put(position, fragment);
+            return fragment;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            registeredFragments.remove(position);
+            super.destroyItem(container, position, object);
+        }
+
+        public Fragment getRegisteredFragment(int position) {
+            return registeredFragments.get(position);
         }
     }
 }
